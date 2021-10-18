@@ -3,6 +3,5 @@ Chess game in Java with JavaFX GUI
 
 This is an unfinished project
 Stalemate and checkmate are under construction
-Promotion to be implemented
-Code must be cleaned up
-Commentary in progress
+End of game must be improved
+Buttons in menubar are not functional yet
