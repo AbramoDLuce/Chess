@@ -8,8 +8,9 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.Border?>
 <BorderPane fx:controller="chessGame.Controller"
-            xmlns:fx="http://javafx.com/fxml">
+            xmlns:fx="http://javafx.com/fxml" fx:id="borderPaneChessBoard">
     <top>
         <GridPane>
             <MenuBar GridPane.rowIndex="0">
@@ -23,10 +24,9 @@
                     <SeparatorMenuItem/>
                     <MenuItem text="Theme"/>
                 </Menu>
-
             </MenuBar>
             <Label text="It is white's turn" style="-fx-font-size: 34px" BorderPane.alignment="CENTER" fx:id="lblTurn"
-                   GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.columnSpan="3"/>
+                   GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
         </GridPane>
     </top>
     <center>

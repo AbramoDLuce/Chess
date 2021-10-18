@@ -5,23 +5,28 @@ import java.util.List;
 
 public class Queen extends Piece {
 
+    // Creating a new queen
     public Queen(int row, int column, boolean isWhite) {
         super(row, column, isWhite);
     }
 
+    // The queen can move vertically, horizontally and diagonally, as far as she desires
     @Override
     public boolean validMove(int newRow, int newColumn) {
         if (!super.validMove(newRow, newColumn)) {
             return false;
         }
-        return this.column - newColumn == this.row - newRow || newColumn - this.column == this.row - newRow || this.column == newColumn || this.row == newRow;
+        return this.column - newColumn == this.row - newRow || newColumn - this.column == this.row - newRow ||
+                this.column == newColumn || this.row == newRow;
     }
 
+    // A valid move is a valid capture for the queen
     @Override
     public boolean validCapture(int newRow, int newColumn) {
         return validMove(newRow, newColumn);
     }
 
+    // All places passed with the same row, column or diagonal
     @Override
     public List<Integer> placesPassed (int newRow, int newColumn) {
         List<Integer> fieldsPassed = new ArrayList<>();
@@ -67,14 +72,5 @@ public class Queen extends Piece {
             }
         }
         return fieldsPassed;
-    }
-
-    @Override
-    public String toString() {
-        if (isWhite) {
-            return "\u2655";
-        } else {
-            return "\u265B";
-        }
     }
 }

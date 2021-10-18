@@ -5,10 +5,12 @@ import java.util.List;
 
 public class Rook extends Piece {
 
+    // Creating a new rook
     public Rook(int row, int column, boolean isWhite) {
         super(row, column, isWhite);
     }
 
+    // The rook can move as far as it wants within the same row or column
     @Override
     public boolean validMove(int newRow, int newColumn) {
         if(!super.validMove(newRow, newColumn)) {
@@ -17,11 +19,14 @@ public class Rook extends Piece {
         return this.column == newColumn || this.row == newRow;
     }
 
+    // A valid move is a valid capture for the rook
     @Override
     public boolean validCapture(int newRow, int newColumn) {
         return validMove(newRow, newColumn);
     }
 
+    // The rook will pass through all the fields between the initial position and the final position
+    // These positions will always be in the same row or column
     @Override
     public List<Integer> placesPassed (int newRow, int newColumn) {
         List<Integer> fieldsPassed = new ArrayList<>();
@@ -47,14 +52,5 @@ public class Rook extends Piece {
             }
         }
         return fieldsPassed;
-    }
-
-    @Override
-    public String toString() {
-        if (isWhite) {
-            return "\u2656";
-        } else {
-            return "\u265C";
-        }
     }
 }
