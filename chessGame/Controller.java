@@ -68,7 +68,69 @@ public class Controller {
     private Label lblTurn;
     @FXML
     private MenuItem menuNewGame;
+    @FXML
+    private Label lblActionHistory;
 
+    @FXML
+    private Label removedWhiteRook1;
+    @FXML
+    private Label removedWhiteRook2;
+    @FXML
+    private Label removedWhiteKnight1;
+    @FXML
+    private Label removedWhiteKnight2;
+    @FXML
+    private Label removedWhiteBishop1;
+    @FXML
+    private Label removedWhiteBishop2;
+    @FXML
+    private Label removedWhiteQueen;
+    @FXML
+    private Label removedWhitePawn1;
+    @FXML
+    private Label removedWhitePawn2;
+    @FXML
+    private Label removedWhitePawn3;
+    @FXML
+    private Label removedWhitePawn4;
+    @FXML
+    private Label removedWhitePawn5;
+    @FXML
+    private Label removedWhitePawn6;
+    @FXML
+    private Label removedWhitePawn7;
+    @FXML
+    private Label removedWhitePawn8;
+    @FXML
+    private Label removedBlackRook1;
+    @FXML
+    private Label removedBlackRook2;
+    @FXML
+    private Label removedBlackKnight1;
+    @FXML
+    private Label removedBlackKnight2;
+    @FXML
+    private Label removedBlackBishop1;
+    @FXML
+    private Label removedBlackBishop2;
+    @FXML
+    private Label removedBlackQueen;
+    @FXML
+    private Label removedBlackPawn1;
+    @FXML
+    private Label removedBlackPawn2;
+    @FXML
+    private Label removedBlackPawn3;
+    @FXML
+    private Label removedBlackPawn4;
+    @FXML
+    private Label removedBlackPawn5;
+    @FXML
+    private Label removedBlackPawn6;
+    @FXML
+    private Label removedBlackPawn7;
+    @FXML
+    private Label removedBlackPawn8;
 
     private Board board = new Board();
     private int firstBtnClicked = 0;
@@ -102,21 +164,15 @@ public class Controller {
         }
     }
 
-    private void showActionHistory() {
-        Alert alert = new Alert(Alert.AlertType.NONE);
-        alert.getButtonTypes().add(ButtonType.OK);
-        alert.setTitle("Action history");
-        alert.setHeaderText("Moves made during this game");
-        alert.setContentText(board.getActionHistory());
-        alert.showAndWait();
-    }
-
     private void action(int button) {
         if (firstBtnClicked != 0) {
             int tempBtn2Location = Integer.parseInt(tempBtn2.getId().substring(3,5));
             int tempBtn1Location = Integer.parseInt(tempBtn1.getId().substring(3,5));
             String tempBtn2ID = tempBtn2.getId();
             if (board.movePiece(firstBtnClicked, button)) {
+                if (tempBtn2.getText().length() > 0) {
+                    updateRemovedPieces(tempBtn2.getText());
+                }
                 specialMove(tempBtn1Location, tempBtn2Location, tempBtn2ID);
                 tempBtn2.setText(tempBtn1.getText());
                 String newPiece = promotion(tempBtn2Location);
@@ -134,7 +190,6 @@ public class Controller {
                         } else {
                             lblTurn.setText("Checkmate! White wins!");
                         }
-                        showActionHistory();
                     }
                     if (!lblTurn.getText().contains("Checkmate")) {
                         lblTurn.setText("Check! " + lblTurn.getText());
@@ -150,6 +205,128 @@ public class Controller {
         } else {
             firstBtnClicked = button;
             tempBtn1.setStyle("-fx-background-color: #999999; -fx-font-size: 34px");
+        }
+        lblActionHistory.setText(board.getActionHistory());
+    }
+
+    private void updateRemovedWhitePawn() {
+        if (removedWhitePawn1.getText().isBlank()) {
+            removedWhitePawn1.setText("♙");
+        } else if (removedWhitePawn2.getText().isBlank()) {
+            removedWhitePawn2.setText("♙");
+        } else if (removedWhitePawn3.getText().isBlank()) {
+            removedWhitePawn3.setText("♙");
+        } else if (removedWhitePawn4.getText().isBlank()) {
+            removedWhitePawn4.setText("♙");
+        } else if (removedWhitePawn5.getText().isBlank()) {
+            removedWhitePawn5.setText("♙");
+        } else if (removedWhitePawn6.getText().isBlank()) {
+            removedWhitePawn6.setText("♙");
+        } else if (removedWhitePawn7.getText().isBlank()) {
+            removedWhitePawn7.setText("♙");
+        } else {
+            removedWhitePawn8.setText("♙");
+        }
+    }
+
+    private void updateRemovedBlackPawn() {
+        if (removedBlackPawn1.getText().isBlank()) {
+            removedBlackPawn1.setText("♟");
+        } else if (removedBlackPawn2.getText().isBlank()) {
+            removedBlackPawn2.setText("♟");
+        } else if (removedBlackPawn3.getText().isBlank()) {
+            removedBlackPawn3.setText("♟");
+        } else if (removedBlackPawn4.getText().isBlank()) {
+            removedBlackPawn4.setText("♟");
+        } else if (removedBlackPawn5.getText().isBlank()) {
+            removedBlackPawn5.setText("♟");
+        } else if (removedBlackPawn6.getText().isBlank()) {
+            removedBlackPawn6.setText("♟");
+        } else if (removedBlackPawn7.getText().isBlank()) {
+            removedBlackPawn7.setText("♟");
+        } else {
+            removedBlackPawn8.setText("♟");
+        }
+    }
+
+    private void updateRemovedPieces(String removedPiece) {
+        switch (removedPiece) {
+            case "♙":
+                updateRemovedWhitePawn();
+                break;
+            case "♖":
+                if (removedWhiteRook1.getText().isBlank()) {
+                    removedWhiteRook1.setText("♖");
+                } else if (removedWhiteRook2.getText().isBlank()) {
+                    removedBlackRook2.setText("♖");
+                } else {
+                    updateRemovedWhitePawn();
+                }
+                break;
+            case "♘":
+                if (removedWhiteKnight1.getText().isBlank()) {
+                    removedWhiteKnight1.setText("♘");
+                } else if (removedWhiteKnight2.getText().isBlank()) {
+                    removedBlackKnight2.setText("♘");
+                } else {
+                    updateRemovedWhitePawn();
+                }
+                break;
+            case "♗":
+                if (removedWhiteBishop1.getText().isBlank()) {
+                    removedWhiteBishop1.setText("♗");
+                } else if (removedWhiteBishop2.getText().isBlank()) {
+                    removedBlackBishop2.setText("♗");
+                } else {
+                    updateRemovedWhitePawn();
+                }
+                break;
+            case "♕":
+                if (removedWhiteQueen.getText().isBlank()) {
+                    removedWhiteQueen.setText("♕");
+                } else {
+                    updateRemovedWhitePawn();
+                }
+                break;
+            case "♟":
+                updateRemovedBlackPawn();
+                break;
+            case "♜":
+                if (removedBlackRook1.getText().isBlank()) {
+                    removedBlackRook1.setText("♜");
+                } else if (removedBlackRook2.getText().isBlank()) {
+                    removedBlackRook2.setText("♜");
+                } else {
+                    updateRemovedBlackPawn();
+                }
+                break;
+            case "♞":
+                if (removedBlackKnight1.getText().isBlank()) {
+                    removedBlackKnight1.setText("♞");
+                } else if (removedBlackKnight2.getText().isBlank()) {
+                    removedBlackKnight2.setText("♞");
+                } else {
+                    updateRemovedBlackPawn();
+                }
+                break;
+            case "♝":
+                if (removedBlackBishop1.getText().isBlank()) {
+                    removedBlackBishop1.setText("♝");
+                } else if (removedBlackBishop2.getText().isBlank()) {
+                    removedBlackBishop2.setText("♝");
+                } else {
+                    updateRemovedBlackPawn();
+                }
+                break;
+            case "♛":
+                if (removedBlackQueen.getText().isBlank()) {
+                    removedBlackQueen.setText("♛");
+                } else {
+                    updateRemovedBlackPawn();
+                }
+                break;
+            default:
+                break;
         }
     }
 

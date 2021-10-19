@@ -9,11 +9,12 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.layout.Border?>
+<?import javafx.scene.layout.AnchorPane?>
 <BorderPane fx:controller="chessGame.Controller"
             xmlns:fx="http://javafx.com/fxml" fx:id="borderPaneChessBoard">
     <top>
-        <GridPane>
-            <MenuBar GridPane.rowIndex="0">
+        <AnchorPane>
+            <MenuBar AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
                 <Menu text="Game">
                     <MenuItem fx:id="menuNewGame" text="New Game"/>
                     <SeparatorMenuItem/>
@@ -25,202 +26,275 @@
                     <MenuItem text="Theme"/>
                 </Menu>
             </MenuBar>
-            <Label text="It is white's turn" style="-fx-font-size: 34px" BorderPane.alignment="CENTER" fx:id="lblTurn"
-                   GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
-        </GridPane>
+        </AnchorPane>
     </top>
+    <left>
+        <GridPane>
+            <padding>
+                <Insets top="20" left="30"/>
+            </padding>
+            <Label text="Moves" style="-fx-font-size: 20px" GridPane.rowIndex="0"/>
+            <Label fx:id="lblActionHistory" prefWidth="170" GridPane.rowIndex="1"/>
+        </GridPane>
+    </left>
+    <right>
+        <GridPane>
+            <Label GridPane.columnIndex="0" GridPane.rowIndex="0" fx:id="removedWhiteRook1"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="0" GridPane.rowIndex="1" fx:id="removedWhiteRook2"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="0" GridPane.rowIndex="2" fx:id="removedWhiteKnight1"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="0" GridPane.rowIndex="3" fx:id="removedWhiteKnight2"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="0" GridPane.rowIndex="4" fx:id="removedWhiteBishop1"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="0" GridPane.rowIndex="5" fx:id="removedWhiteBishop2"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="0" GridPane.rowIndex="6" fx:id="removedWhiteQueen"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="removedWhitePawn1"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="removedWhitePawn2"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="removedWhitePawn3"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="1" GridPane.rowIndex="3" fx:id="removedWhitePawn4"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="1" GridPane.rowIndex="4" fx:id="removedWhitePawn5"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="1" GridPane.rowIndex="5" fx:id="removedWhitePawn6"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="1" GridPane.rowIndex="6" fx:id="removedWhitePawn7"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="1" GridPane.rowIndex="7" fx:id="removedWhitePawn8"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="2" GridPane.rowIndex="0" fx:id="removedBlackRook1"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="2" GridPane.rowIndex="1" fx:id="removedBlackRook2"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="2" GridPane.rowIndex="2" fx:id="removedBlackKnight1"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="2" GridPane.rowIndex="3" fx:id="removedBlackKnight2"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="2" GridPane.rowIndex="4" fx:id="removedBlackBishop1"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="2" GridPane.rowIndex="5" fx:id="removedBlackBishop2"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="2" GridPane.rowIndex="6" fx:id="removedBlackQueen"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="3" GridPane.rowIndex="0" fx:id="removedBlackPawn1"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="3" GridPane.rowIndex="1" fx:id="removedBlackPawn2"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="3" GridPane.rowIndex="2" fx:id="removedBlackPawn3"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="3" GridPane.rowIndex="3" fx:id="removedBlackPawn4"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="3" GridPane.rowIndex="4" fx:id="removedBlackPawn5"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="3" GridPane.rowIndex="5" fx:id="removedBlackPawn6"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="3" GridPane.rowIndex="6" fx:id="removedBlackPawn7"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+            <Label GridPane.columnIndex="3" GridPane.rowIndex="7" fx:id="removedBlackPawn8"
+                   style="-fx-font-size: 34px" prefWidth="50"/>
+        </GridPane>
+    </right>
     <center>
         <GridPane alignment="center">
-            <Button text="♜" prefHeight="80" prefWidth="80" GridPane.rowIndex="0" GridPane.columnIndex="0"
+            <Label text="It is white's turn" style="-fx-font-size: 34px" BorderPane.alignment="CENTER" fx:id="lblTurn"
+                   GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="8"/>
+            <Button text="♜" prefHeight="80" prefWidth="80" GridPane.rowIndex="1" GridPane.columnIndex="0"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn81"/>
-            <Button text="♞" prefHeight="80" prefWidth="80" GridPane.rowIndex="0" GridPane.columnIndex="1"
+            <Button text="♞" prefHeight="80" prefWidth="80" GridPane.rowIndex="1" GridPane.columnIndex="1"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn82"/>
-            <Button text="♝" prefHeight="80" prefWidth="80" GridPane.rowIndex="0" GridPane.columnIndex="2"
+            <Button text="♝" prefHeight="80" prefWidth="80" GridPane.rowIndex="1" GridPane.columnIndex="2"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn83"/>
-            <Button text="♛" prefHeight="80" prefWidth="80" GridPane.rowIndex="0" GridPane.columnIndex="3"
+            <Button text="♛" prefHeight="80" prefWidth="80" GridPane.rowIndex="1" GridPane.columnIndex="3"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn84"/>
-            <Button text="♚" prefHeight="80" prefWidth="80" GridPane.rowIndex="0" GridPane.columnIndex="4"
+            <Button text="♚" prefHeight="80" prefWidth="80" GridPane.rowIndex="1" GridPane.columnIndex="4"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn85"/>
-            <Button text="♝" prefHeight="80" prefWidth="80" GridPane.rowIndex="0" GridPane.columnIndex="5"
+            <Button text="♝" prefHeight="80" prefWidth="80" GridPane.rowIndex="1" GridPane.columnIndex="5"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn86"/>
-            <Button text="♞" prefHeight="80" prefWidth="80" GridPane.rowIndex="0" GridPane.columnIndex="6"
+            <Button text="♞" prefHeight="80" prefWidth="80" GridPane.rowIndex="1" GridPane.columnIndex="6"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn87"/>
-            <Button text="♜" prefHeight="80" prefWidth="80" GridPane.rowIndex="0" GridPane.columnIndex="7"
+            <Button text="♜" prefHeight="80" prefWidth="80" GridPane.rowIndex="1" GridPane.columnIndex="7"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn88"/>
-            <Button text="♟" prefHeight="80" prefWidth="80" GridPane.rowIndex="1" GridPane.columnIndex="0"
+            <Button text="♟" prefHeight="80" prefWidth="80" GridPane.rowIndex="2" GridPane.columnIndex="0"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn71"/>
-            <Button text="♟" prefHeight="80" prefWidth="80" GridPane.rowIndex="1" GridPane.columnIndex="1"
+            <Button text="♟" prefHeight="80" prefWidth="80" GridPane.rowIndex="2" GridPane.columnIndex="1"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn72"/>
-            <Button text="♟" prefHeight="80" prefWidth="80" GridPane.rowIndex="1" GridPane.columnIndex="2"
+            <Button text="♟" prefHeight="80" prefWidth="80" GridPane.rowIndex="2" GridPane.columnIndex="2"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn73"/>
-            <Button text="♟" prefHeight="80" prefWidth="80" GridPane.rowIndex="1" GridPane.columnIndex="3"
+            <Button text="♟" prefHeight="80" prefWidth="80" GridPane.rowIndex="2" GridPane.columnIndex="3"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn74"/>
-            <Button text="♟" prefHeight="80" prefWidth="80" GridPane.rowIndex="1" GridPane.columnIndex="4"
+            <Button text="♟" prefHeight="80" prefWidth="80" GridPane.rowIndex="2" GridPane.columnIndex="4"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn75"/>
-            <Button text="♟" prefHeight="80" prefWidth="80" GridPane.rowIndex="1" GridPane.columnIndex="5"
+            <Button text="♟" prefHeight="80" prefWidth="80" GridPane.rowIndex="2" GridPane.columnIndex="5"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn76"/>
-            <Button text="♟" prefHeight="80" prefWidth="80" GridPane.rowIndex="1" GridPane.columnIndex="6"
+            <Button text="♟" prefHeight="80" prefWidth="80" GridPane.rowIndex="2" GridPane.columnIndex="6"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn77"/>
-            <Button text="♟" prefHeight="80" prefWidth="80" GridPane.rowIndex="1" GridPane.columnIndex="7"
+            <Button text="♟" prefHeight="80" prefWidth="80" GridPane.rowIndex="2" GridPane.columnIndex="7"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn78"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="2" GridPane.columnIndex="0"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="3" GridPane.columnIndex="0"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn61"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="2" GridPane.columnIndex="1"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="3" GridPane.columnIndex="1"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn62"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="2" GridPane.columnIndex="2"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="3" GridPane.columnIndex="2"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn63"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="2" GridPane.columnIndex="3"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="3" GridPane.columnIndex="3"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn64"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="2" GridPane.columnIndex="4"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="3" GridPane.columnIndex="4"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn65"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="2" GridPane.columnIndex="5"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="3" GridPane.columnIndex="5"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn66"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="2" GridPane.columnIndex="6"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="3" GridPane.columnIndex="6"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn67"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="2" GridPane.columnIndex="7"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="3" GridPane.columnIndex="7"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn68"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="3" GridPane.columnIndex="0"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="4" GridPane.columnIndex="0"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn51"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="3" GridPane.columnIndex="1"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="4" GridPane.columnIndex="1"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn52"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="3" GridPane.columnIndex="2"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="4" GridPane.columnIndex="2"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn53"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="3" GridPane.columnIndex="3"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="4" GridPane.columnIndex="3"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn54"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="3" GridPane.columnIndex="4"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="4" GridPane.columnIndex="4"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn55"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="3" GridPane.columnIndex="5"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="4" GridPane.columnIndex="5"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn56"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="3" GridPane.columnIndex="6"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="4" GridPane.columnIndex="6"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn57"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="3" GridPane.columnIndex="7"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="4" GridPane.columnIndex="7"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn58"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="4" GridPane.columnIndex="0"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="5" GridPane.columnIndex="0"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn41"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="4" GridPane.columnIndex="1"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="5" GridPane.columnIndex="1"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn42"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="4" GridPane.columnIndex="2"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="5" GridPane.columnIndex="2"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn43"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="4" GridPane.columnIndex="3"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="5" GridPane.columnIndex="3"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn44"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="4" GridPane.columnIndex="4"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="5" GridPane.columnIndex="4"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn45"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="4" GridPane.columnIndex="5"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="5" GridPane.columnIndex="5"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn46"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="4" GridPane.columnIndex="6"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="5" GridPane.columnIndex="6"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn47"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="4" GridPane.columnIndex="7"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="5" GridPane.columnIndex="7"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn48"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="5" GridPane.columnIndex="0"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="6" GridPane.columnIndex="0"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn31"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="5" GridPane.columnIndex="1"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="6" GridPane.columnIndex="1"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn32"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="5" GridPane.columnIndex="2"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="6" GridPane.columnIndex="2"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn33"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="5" GridPane.columnIndex="3"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="6" GridPane.columnIndex="3"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn34"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="5" GridPane.columnIndex="4"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="6" GridPane.columnIndex="4"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn35"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="5" GridPane.columnIndex="5"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="6" GridPane.columnIndex="5"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn36"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="5" GridPane.columnIndex="6"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="6" GridPane.columnIndex="6"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn37"/>
-            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="5" GridPane.columnIndex="7"
+            <Button prefHeight="80" prefWidth="80" GridPane.rowIndex="6" GridPane.columnIndex="7"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn38"/>
-            <Button text="♙" prefHeight="80" prefWidth="80" GridPane.rowIndex="6" GridPane.columnIndex="0"
+            <Button text="♙" prefHeight="80" prefWidth="80" GridPane.rowIndex="7" GridPane.columnIndex="0"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn21"/>
-            <Button text="♙" prefHeight="80" prefWidth="80" GridPane.rowIndex="6" GridPane.columnIndex="1"
+            <Button text="♙" prefHeight="80" prefWidth="80" GridPane.rowIndex="7" GridPane.columnIndex="1"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn22"/>
-            <Button text="♙" prefHeight="80" prefWidth="80" GridPane.rowIndex="6" GridPane.columnIndex="2"
+            <Button text="♙" prefHeight="80" prefWidth="80" GridPane.rowIndex="7" GridPane.columnIndex="2"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn23"/>
-            <Button text="♙" prefHeight="80" prefWidth="80" GridPane.rowIndex="6" GridPane.columnIndex="3"
+            <Button text="♙" prefHeight="80" prefWidth="80" GridPane.rowIndex="7" GridPane.columnIndex="3"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn24"/>
-            <Button text="♙" prefHeight="80" prefWidth="80" GridPane.rowIndex="6" GridPane.columnIndex="4"
+            <Button text="♙" prefHeight="80" prefWidth="80" GridPane.rowIndex="7" GridPane.columnIndex="4"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn25"/>
-            <Button text="♙" prefHeight="80" prefWidth="80" GridPane.rowIndex="6" GridPane.columnIndex="5"
+            <Button text="♙" prefHeight="80" prefWidth="80" GridPane.rowIndex="7" GridPane.columnIndex="5"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn26"/>
-            <Button text="♙" prefHeight="80" prefWidth="80" GridPane.rowIndex="6" GridPane.columnIndex="6"
+            <Button text="♙" prefHeight="80" prefWidth="80" GridPane.rowIndex="7" GridPane.columnIndex="6"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn27"/>
-            <Button text="♙" prefHeight="80" prefWidth="80" GridPane.rowIndex="6" GridPane.columnIndex="7"
+            <Button text="♙" prefHeight="80" prefWidth="80" GridPane.rowIndex="7" GridPane.columnIndex="7"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn28"/>
-            <Button text="♖" prefHeight="80" prefWidth="80" GridPane.rowIndex="7" GridPane.columnIndex="0"
+            <Button text="♖" prefHeight="80" prefWidth="80" GridPane.rowIndex="8" GridPane.columnIndex="0"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn11"/>
-            <Button text="♘" prefHeight="80" prefWidth="80" GridPane.rowIndex="7" GridPane.columnIndex="1"
+            <Button text="♘" prefHeight="80" prefWidth="80" GridPane.rowIndex="8" GridPane.columnIndex="1"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn12"/>
-            <Button text="♗" prefHeight="80" prefWidth="80" GridPane.rowIndex="7" GridPane.columnIndex="2"
+            <Button text="♗" prefHeight="80" prefWidth="80" GridPane.rowIndex="8" GridPane.columnIndex="2"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn13"/>
-            <Button text="♕" prefHeight="80" prefWidth="80" GridPane.rowIndex="7" GridPane.columnIndex="3"
+            <Button text="♕" prefHeight="80" prefWidth="80" GridPane.rowIndex="8" GridPane.columnIndex="3"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn14"/>
-            <Button text="♔" prefHeight="80" prefWidth="80" GridPane.rowIndex="7" GridPane.columnIndex="4"
+            <Button text="♔" prefHeight="80" prefWidth="80" GridPane.rowIndex="8" GridPane.columnIndex="4"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn15"/>
-            <Button text="♗" prefHeight="80" prefWidth="80" GridPane.rowIndex="7" GridPane.columnIndex="5"
+            <Button text="♗" prefHeight="80" prefWidth="80" GridPane.rowIndex="8" GridPane.columnIndex="5"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn16"/>
-            <Button text="♘" prefHeight="80" prefWidth="80" GridPane.rowIndex="7" GridPane.columnIndex="6"
+            <Button text="♘" prefHeight="80" prefWidth="80" GridPane.rowIndex="8" GridPane.columnIndex="6"
                     style="-fx-background-color: #666666; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn17"/>
-            <Button text="♖" prefHeight="80" prefWidth="80" GridPane.rowIndex="7" GridPane.columnIndex="7"
+            <Button text="♖" prefHeight="80" prefWidth="80" GridPane.rowIndex="8" GridPane.columnIndex="7"
                     style="-fx-background-color: #cccccc; -fx-font-size: 34px"
                     onAction="#fieldClicked" fx:id="btn18"/>
         </GridPane>
