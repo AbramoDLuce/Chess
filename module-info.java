@@ -1,4 +1,4 @@
-module Chess2WithGUI {
+module ChessGui {
     requires javafx.fxml;
     requires javafx.controls;
 

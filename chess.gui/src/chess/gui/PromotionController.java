@@ -1,4 +1,4 @@
-package chessGame;
+package chess.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

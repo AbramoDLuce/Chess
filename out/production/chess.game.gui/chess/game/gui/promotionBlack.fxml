@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<DialogPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="chess.game.gui.PromotionController"
+            prefHeight="150.0" prefWidth="450.0">
+    <content>
+        <GridPane alignment="CENTER" hgap="20">
+            <Button text="♜" prefHeight="80" prefWidth="80" GridPane.rowIndex="0" GridPane.columnIndex="0"
+                    style="-fx-background-color: #cccccc; -fx-font-size: 34px"
+                    onAction="#btnClicked" fx:id="btnRook"/>
+            <Button text="♞" prefHeight="80" prefWidth="80" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                    style="-fx-background-color: #cccccc; -fx-font-size: 34px"
+                    onAction="#btnClicked" fx:id="btnKnight"/>
+            <Button text="♝" prefHeight="80" prefWidth="80" GridPane.rowIndex="0" GridPane.columnIndex="2"
+                    style="-fx-background-color: #cccccc; -fx-font-size: 34px"
+                    onAction="#btnClicked" fx:id="btnBishop"/>
+            <Button text="♛" prefHeight="80" prefWidth="80" GridPane.rowIndex="0" GridPane.columnIndex="3"
+                    style="-fx-background-color: #cccccc; -fx-font-size: 34px"
+                    onAction="#btnClicked" fx:id="btnQueen"/>
+        </GridPane>
+    </content>
+
+</DialogPane>
