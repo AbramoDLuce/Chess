@@ -12,7 +12,13 @@
                     <MenuItem text="Undo"/>
                 </Menu>
                 <Menu text="Settings">
-                    <MenuItem text="Colors"/>
+                    <Menu text="Theme">
+                        <MenuItem text="Gray" onAction="#onClickGray"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Green" onAction="#onClickGreen"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Blue" onAction="#onClickBlue"/>
+                    </Menu>
                     <SeparatorMenuItem/>
                     <MenuItem text="Change Style"/>
                 </Menu>

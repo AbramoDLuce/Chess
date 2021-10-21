@@ -212,110 +212,123 @@ public class Controller {
     @FXML
     private Label removedBlackPawn8;
 
+    private Set<Button> darkFieldsSet = new HashSet<>();
+    private Set<Button> lightFieldsSet = new HashSet<>();
     private Set<Button> fieldsSet = new HashSet<>();
+    private Set<Label> removedDarkPiecesSet = new HashSet<>();
+    private Set<Label> removedLightPiecesSet = new HashSet<>();
     private Set<Label> removedPiecesSet = new HashSet<>();
 
     private Board board = new Board();
     private int firstBtnClicked = 0;
     private Button tempBtn1 = null;
     private Button tempBtn2 = null;
+    private String theme = "gray";
 
     public void initialize() {
-        fieldsSet.add(btn11);
-        fieldsSet.add(btn12);
-        fieldsSet.add(btn13);
-        fieldsSet.add(btn14);
-        fieldsSet.add(btn15);
-        fieldsSet.add(btn16);
-        fieldsSet.add(btn17);
-        fieldsSet.add(btn18);
-        fieldsSet.add(btn21);
-        fieldsSet.add(btn22);
-        fieldsSet.add(btn23);
-        fieldsSet.add(btn24);
-        fieldsSet.add(btn25);
-        fieldsSet.add(btn26);
-        fieldsSet.add(btn27);
-        fieldsSet.add(btn28);
-        fieldsSet.add(btn31);
-        fieldsSet.add(btn32);
-        fieldsSet.add(btn33);
-        fieldsSet.add(btn34);
-        fieldsSet.add(btn35);
-        fieldsSet.add(btn36);
-        fieldsSet.add(btn37);
-        fieldsSet.add(btn38);
-        fieldsSet.add(btn41);
-        fieldsSet.add(btn42);
-        fieldsSet.add(btn43);
-        fieldsSet.add(btn44);
-        fieldsSet.add(btn45);
-        fieldsSet.add(btn46);
-        fieldsSet.add(btn47);
-        fieldsSet.add(btn48);
-        fieldsSet.add(btn51);
-        fieldsSet.add(btn52);
-        fieldsSet.add(btn53);
-        fieldsSet.add(btn54);
-        fieldsSet.add(btn55);
-        fieldsSet.add(btn56);
-        fieldsSet.add(btn57);
-        fieldsSet.add(btn58);
-        fieldsSet.add(btn61);
-        fieldsSet.add(btn62);
-        fieldsSet.add(btn63);
-        fieldsSet.add(btn64);
-        fieldsSet.add(btn65);
-        fieldsSet.add(btn66);
-        fieldsSet.add(btn67);
-        fieldsSet.add(btn68);
-        fieldsSet.add(btn71);
-        fieldsSet.add(btn72);
-        fieldsSet.add(btn73);
-        fieldsSet.add(btn74);
-        fieldsSet.add(btn75);
-        fieldsSet.add(btn76);
-        fieldsSet.add(btn77);
-        fieldsSet.add(btn78);
-        fieldsSet.add(btn81);
-        fieldsSet.add(btn82);
-        fieldsSet.add(btn83);
-        fieldsSet.add(btn84);
-        fieldsSet.add(btn85);
-        fieldsSet.add(btn86);
-        fieldsSet.add(btn87);
-        fieldsSet.add(btn88);
+        darkFieldsSet.add(btn11);
+        darkFieldsSet.add(btn13);
+        darkFieldsSet.add(btn15);
+        darkFieldsSet.add(btn17);
+        darkFieldsSet.add(btn22);
+        darkFieldsSet.add(btn24);
+        darkFieldsSet.add(btn26);
+        darkFieldsSet.add(btn28);
+        darkFieldsSet.add(btn31);
+        darkFieldsSet.add(btn33);
+        darkFieldsSet.add(btn35);
+        darkFieldsSet.add(btn37);
+        darkFieldsSet.add(btn42);
+        darkFieldsSet.add(btn44);
+        darkFieldsSet.add(btn46);
+        darkFieldsSet.add(btn48);
+        darkFieldsSet.add(btn51);
+        darkFieldsSet.add(btn53);
+        darkFieldsSet.add(btn55);
+        darkFieldsSet.add(btn57);
+        darkFieldsSet.add(btn62);
+        darkFieldsSet.add(btn64);
+        darkFieldsSet.add(btn66);
+        darkFieldsSet.add(btn68);
+        darkFieldsSet.add(btn71);
+        darkFieldsSet.add(btn73);
+        darkFieldsSet.add(btn75);
+        darkFieldsSet.add(btn77);
+        darkFieldsSet.add(btn82);
+        darkFieldsSet.add(btn84);
+        darkFieldsSet.add(btn86);
+        darkFieldsSet.add(btn88);
 
-        removedPiecesSet.add(removedWhitePawn1);
-        removedPiecesSet.add(removedWhitePawn2);
-        removedPiecesSet.add(removedWhitePawn3);
-        removedPiecesSet.add(removedWhitePawn4);
-        removedPiecesSet.add(removedWhitePawn5);
-        removedPiecesSet.add(removedWhitePawn6);
-        removedPiecesSet.add(removedWhitePawn7);
-        removedPiecesSet.add(removedWhitePawn8);
-        removedPiecesSet.add(removedBlackPawn1);
-        removedPiecesSet.add(removedBlackPawn2);
-        removedPiecesSet.add(removedBlackPawn3);
-        removedPiecesSet.add(removedBlackPawn4);
-        removedPiecesSet.add(removedBlackPawn5);
-        removedPiecesSet.add(removedBlackPawn6);
-        removedPiecesSet.add(removedBlackPawn7);
-        removedPiecesSet.add(removedBlackPawn8);
-        removedPiecesSet.add(removedWhiteRook1);
-        removedPiecesSet.add(removedWhiteRook2);
-        removedPiecesSet.add(removedWhiteKnight1);
-        removedPiecesSet.add(removedWhiteKnight2);
-        removedPiecesSet.add(removedWhiteBishop1);
-        removedPiecesSet.add(removedWhiteBishop2);
-        removedPiecesSet.add(removedWhiteQueen);
-        removedPiecesSet.add(removedBlackRook1);
-        removedPiecesSet.add(removedBlackRook2);
-        removedPiecesSet.add(removedBlackKnight1);
-        removedPiecesSet.add(removedBlackKnight2);
-        removedPiecesSet.add(removedBlackBishop1);
-        removedPiecesSet.add(removedBlackBishop2);
-        removedPiecesSet.add(removedBlackQueen);
+        lightFieldsSet.add(btn12);
+        lightFieldsSet.add(btn14);
+        lightFieldsSet.add(btn16);
+        lightFieldsSet.add(btn18);
+        lightFieldsSet.add(btn21);
+        lightFieldsSet.add(btn23);
+        lightFieldsSet.add(btn25);
+        lightFieldsSet.add(btn27);
+        lightFieldsSet.add(btn32);
+        lightFieldsSet.add(btn34);
+        lightFieldsSet.add(btn36);
+        lightFieldsSet.add(btn38);
+        lightFieldsSet.add(btn41);
+        lightFieldsSet.add(btn43);
+        lightFieldsSet.add(btn45);
+        lightFieldsSet.add(btn47);
+        lightFieldsSet.add(btn52);
+        lightFieldsSet.add(btn54);
+        lightFieldsSet.add(btn56);
+        lightFieldsSet.add(btn58);
+        lightFieldsSet.add(btn61);
+        lightFieldsSet.add(btn63);
+        lightFieldsSet.add(btn65);
+        lightFieldsSet.add(btn67);
+        lightFieldsSet.add(btn72);
+        lightFieldsSet.add(btn74);
+        lightFieldsSet.add(btn76);
+        lightFieldsSet.add(btn78);
+        lightFieldsSet.add(btn81);
+        lightFieldsSet.add(btn83);
+        lightFieldsSet.add(btn85);
+        lightFieldsSet.add(btn87);
+
+        fieldsSet.addAll(darkFieldsSet);
+        fieldsSet.addAll(lightFieldsSet);
+
+        removedLightPiecesSet.add(removedWhitePawn1);
+        removedLightPiecesSet.add(removedWhitePawn2);
+        removedLightPiecesSet.add(removedWhitePawn3);
+        removedLightPiecesSet.add(removedWhitePawn4);
+        removedLightPiecesSet.add(removedWhitePawn5);
+        removedLightPiecesSet.add(removedWhitePawn6);
+        removedLightPiecesSet.add(removedWhitePawn7);
+        removedLightPiecesSet.add(removedWhitePawn8);
+        removedLightPiecesSet.add(removedWhiteRook1);
+        removedLightPiecesSet.add(removedWhiteRook2);
+        removedLightPiecesSet.add(removedWhiteKnight1);
+        removedLightPiecesSet.add(removedWhiteKnight2);
+        removedLightPiecesSet.add(removedWhiteBishop1);
+        removedLightPiecesSet.add(removedWhiteBishop2);
+        removedLightPiecesSet.add(removedWhiteQueen);
+
+        removedDarkPiecesSet.add(removedBlackPawn1);
+        removedDarkPiecesSet.add(removedBlackPawn2);
+        removedDarkPiecesSet.add(removedBlackPawn3);
+        removedDarkPiecesSet.add(removedBlackPawn4);
+        removedDarkPiecesSet.add(removedBlackPawn5);
+        removedDarkPiecesSet.add(removedBlackPawn6);
+        removedDarkPiecesSet.add(removedBlackPawn7);
+        removedDarkPiecesSet.add(removedBlackPawn8);
+        removedDarkPiecesSet.add(removedBlackRook1);
+        removedDarkPiecesSet.add(removedBlackRook2);
+        removedDarkPiecesSet.add(removedBlackKnight1);
+        removedDarkPiecesSet.add(removedBlackKnight2);
+        removedDarkPiecesSet.add(removedBlackBishop1);
+        removedDarkPiecesSet.add(removedBlackBishop2);
+        removedDarkPiecesSet.add(removedBlackQueen);
+
+        removedPiecesSet.addAll(removedLightPiecesSet);
+        removedPiecesSet.addAll(removedDarkPiecesSet);
     }
 
     @FXML
@@ -638,18 +651,65 @@ public class Controller {
     }
 
     @FXML
-    public void onClickColors() {
+    public void onClickGray() {
+        for (Button button : darkFieldsSet) {
+            button.setStyle("-fx-background-color: #666666; -fx-font-size: 34px");
+        }
+        for (Button button : lightFieldsSet) {
+            button.setStyle("-fx-background-color: #cccccc; -fx-font-size: 34px");
+        }
+        theme = "gray";
     }
 
     @FXML
-    public void onClickTheme() {
+    public void onClickGreen() {
+        for (Button button : darkFieldsSet) {
+            button.setStyle("-fx-background-color: #455843; -fx-font-size: 34px");
+        }
+        for (Button button : lightFieldsSet) {
+            button.setStyle("-fx-background-color: #dddddd; -fx-font-size: 34px");
+        }
+        theme = "green";
+    }
+
+    @FXML
+    public void onClickBlue() {
+        for (Button button : darkFieldsSet) {
+            button.setStyle("-fx-background-color: #0a162c; -fx-font-size: 34px");
+        }
+        for (Button button : lightFieldsSet) {
+            button.setStyle("-fx-background-color: #cdcdcd; -fx-font-size: 34px");
+        }
+        theme = "blue";
     }
 
     public void resetFieldColors() {
-        if (((firstBtnClicked / 10) % 2 == 0 && firstBtnClicked % 2 == 0) || ((firstBtnClicked / 10) % 2 != 0 && firstBtnClicked % 2 != 0)) {
-            tempBtn1.setStyle("-fx-background-color: #666666; -fx-font-size: 34px");
+        if (darkFieldsSet.contains(tempBtn1)) {
+            switch (theme) {
+                case "gray":
+                default:
+                    tempBtn1.setStyle("-fx-background-color: #666666; -fx-font-size: 34px");
+                    break;
+                case "green":
+                    tempBtn1.setStyle("-fx-background-color: #455843; -fx-font-size: 34px");
+                    break;
+                case "blue":
+                    tempBtn1.setStyle("-fx-background-color: #0a162c; -fx-font-size: 34px");
+                    break;
+            }
         } else {
-            tempBtn1.setStyle("-fx-background-color: #cccccc; -fx-font-size: 34px");
+            switch (theme) {
+                case "gray":
+                default:
+                    tempBtn1.setStyle("-fx-background-color: #cccccc; -fx-font-size: 34px");
+                    break;
+                case "green":
+                    tempBtn1.setStyle("-fx-background-color: #dddddd; -fx-font-size: 34px");
+                    break;
+                case "blue":
+                    tempBtn1.setStyle("-fx-background-color: #cdcdcd; -fx-font-size: 34px");
+                    break;
+            }
         }
         tempBtn1 = null;
         firstBtnClicked = 0;
