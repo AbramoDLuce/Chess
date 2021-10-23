@@ -13,6 +13,8 @@ import java.util.Optional;
 import java.util.Set;
 
 public class Controller {
+
+    //Declaration of the buttons that function as fields on the chess board
     @FXML
     private Button btn11;
     @FXML
@@ -142,15 +144,7 @@ public class Controller {
     @FXML
     private Button btn88;
 
-    @FXML
-    private BorderPane borderPaneChessBoard;
-    @FXML
-    private Label lblTurn;
-    @FXML
-    private MenuItem menuNewGame;
-    @FXML
-    private Label lblActionHistory;
-
+    // Declaration of the labels that will show the chess pieces next to the board, after the have been captured
     @FXML
     private Label removedWhiteRook1;
     @FXML
@@ -212,12 +206,21 @@ public class Controller {
     @FXML
     private Label removedBlackPawn8;
 
-    private Set<Button> darkFieldsSet = new HashSet<>();
-    private Set<Button> lightFieldsSet = new HashSet<>();
-    private Set<Button> fieldsSet = new HashSet<>();
-    private Set<Label> removedDarkPiecesSet = new HashSet<>();
-    private Set<Label> removedLightPiecesSet = new HashSet<>();
-    private Set<Label> removedPiecesSet = new HashSet<>();
+    @FXML
+    private BorderPane borderPaneChessBoard;
+    @FXML
+    private Label lblTurn;
+    @FXML
+    private MenuItem menuNewGame;
+    @FXML
+    private Label lblActionHistory;
+
+    private final Set<Button> darkFieldsSet = new HashSet<>();
+    private final Set<Button> lightFieldsSet = new HashSet<>();
+    private final Set<Button> fieldsSet = new HashSet<>();
+    private final Set<Label> removedDarkPiecesSet = new HashSet<>();
+    private final Set<Label> removedLightPiecesSet = new HashSet<>();
+    private final Set<Label> removedPiecesSet = new HashSet<>();
 
     private Board board = new Board();
     private int firstBtnClicked = 0;
@@ -225,40 +228,21 @@ public class Controller {
     private Button tempBtn2 = null;
     private String theme = "gray";
 
+    // Adds all buttons that represent the fields and the labels for the removed pieces to their collections
     public void initialize() {
-        darkFieldsSet.add(btn11);
-        darkFieldsSet.add(btn13);
-        darkFieldsSet.add(btn15);
-        darkFieldsSet.add(btn17);
-        darkFieldsSet.add(btn22);
-        darkFieldsSet.add(btn24);
-        darkFieldsSet.add(btn26);
-        darkFieldsSet.add(btn28);
-        darkFieldsSet.add(btn31);
-        darkFieldsSet.add(btn33);
-        darkFieldsSet.add(btn35);
-        darkFieldsSet.add(btn37);
-        darkFieldsSet.add(btn42);
-        darkFieldsSet.add(btn44);
-        darkFieldsSet.add(btn46);
-        darkFieldsSet.add(btn48);
-        darkFieldsSet.add(btn51);
-        darkFieldsSet.add(btn53);
-        darkFieldsSet.add(btn55);
-        darkFieldsSet.add(btn57);
-        darkFieldsSet.add(btn62);
-        darkFieldsSet.add(btn64);
-        darkFieldsSet.add(btn66);
-        darkFieldsSet.add(btn68);
-        darkFieldsSet.add(btn71);
-        darkFieldsSet.add(btn73);
-        darkFieldsSet.add(btn75);
-        darkFieldsSet.add(btn77);
-        darkFieldsSet.add(btn82);
-        darkFieldsSet.add(btn84);
-        darkFieldsSet.add(btn86);
-        darkFieldsSet.add(btn88);
+        initializeDarkFieldsSet();
+        initializeLightFieldsSet();
+        fieldsSet.addAll(darkFieldsSet);
+        fieldsSet.addAll(lightFieldsSet);
 
+        initializeRemovedDarkPiecesSet();
+        initializeRemovedLightPiecesSet();
+        removedPiecesSet.addAll(removedLightPiecesSet);
+        removedPiecesSet.addAll(removedDarkPiecesSet);
+    }
+
+    // Adds the white/light colored buttons representing the white/light fields to their collection
+    private void initializeLightFieldsSet() {
         lightFieldsSet.add(btn12);
         lightFieldsSet.add(btn14);
         lightFieldsSet.add(btn16);
@@ -291,10 +275,46 @@ public class Controller {
         lightFieldsSet.add(btn83);
         lightFieldsSet.add(btn85);
         lightFieldsSet.add(btn87);
+    }
 
-        fieldsSet.addAll(darkFieldsSet);
-        fieldsSet.addAll(lightFieldsSet);
+    // Adds the dark/black buttons representing the dark/black fields to their collection
+    private void initializeDarkFieldsSet() {
+        darkFieldsSet.add(btn11);
+        darkFieldsSet.add(btn13);
+        darkFieldsSet.add(btn15);
+        darkFieldsSet.add(btn17);
+        darkFieldsSet.add(btn22);
+        darkFieldsSet.add(btn24);
+        darkFieldsSet.add(btn26);
+        darkFieldsSet.add(btn28);
+        darkFieldsSet.add(btn31);
+        darkFieldsSet.add(btn33);
+        darkFieldsSet.add(btn35);
+        darkFieldsSet.add(btn37);
+        darkFieldsSet.add(btn42);
+        darkFieldsSet.add(btn44);
+        darkFieldsSet.add(btn46);
+        darkFieldsSet.add(btn48);
+        darkFieldsSet.add(btn51);
+        darkFieldsSet.add(btn53);
+        darkFieldsSet.add(btn55);
+        darkFieldsSet.add(btn57);
+        darkFieldsSet.add(btn62);
+        darkFieldsSet.add(btn64);
+        darkFieldsSet.add(btn66);
+        darkFieldsSet.add(btn68);
+        darkFieldsSet.add(btn71);
+        darkFieldsSet.add(btn73);
+        darkFieldsSet.add(btn75);
+        darkFieldsSet.add(btn77);
+        darkFieldsSet.add(btn82);
+        darkFieldsSet.add(btn84);
+        darkFieldsSet.add(btn86);
+        darkFieldsSet.add(btn88);
+    }
 
+    // Adds the labels representing the captured light/white pieces to their collection
+    private void initializeRemovedLightPiecesSet() {
         removedLightPiecesSet.add(removedWhitePawn1);
         removedLightPiecesSet.add(removedWhitePawn2);
         removedLightPiecesSet.add(removedWhitePawn3);
@@ -310,7 +330,10 @@ public class Controller {
         removedLightPiecesSet.add(removedWhiteBishop1);
         removedLightPiecesSet.add(removedWhiteBishop2);
         removedLightPiecesSet.add(removedWhiteQueen);
+    }
 
+    // Adds the labels representing the captured dark/black pieces to their collection
+    private void initializeRemovedDarkPiecesSet() {
         removedDarkPiecesSet.add(removedBlackPawn1);
         removedDarkPiecesSet.add(removedBlackPawn2);
         removedDarkPiecesSet.add(removedBlackPawn3);
@@ -326,11 +349,10 @@ public class Controller {
         removedDarkPiecesSet.add(removedBlackBishop1);
         removedDarkPiecesSet.add(removedBlackBishop2);
         removedDarkPiecesSet.add(removedBlackQueen);
-
-        removedPiecesSet.addAll(removedLightPiecesSet);
-        removedPiecesSet.addAll(removedDarkPiecesSet);
     }
 
+    // Assigns the first or second button/field clicked to the correct member variable reference and
+    // starts the action method.
     @FXML
     public void fieldClicked(ActionEvent event) {
         if (tempBtn1 == null) {
@@ -348,6 +370,7 @@ public class Controller {
 
     }
 
+    // Pop-up window created when a players king is check and the player tries to move a piece that does not solve this situation.
     private void checkWarning() {
         if (lblTurn.getText().contains("Check!")) {
             Alert alert = new Alert(Alert.AlertType.NONE);
@@ -358,6 +381,7 @@ public class Controller {
         }
     }
 
+    // Calls all the methods verifying the legality of the move and verifying if there is a case of check, checkmate or stalemate.
     private void action(int button) {
         if (firstBtnClicked != 0) {
             int tempBtn2Location = Integer.parseInt(tempBtn2.getId().substring(3,5));
@@ -403,6 +427,7 @@ public class Controller {
         lblActionHistory.setText(board.getActionHistory());
     }
 
+    // Puts the captured white pawn next to the board
     private void updateRemovedWhitePawn() {
         if (removedWhitePawn1.getText().isBlank()) {
             removedWhitePawn1.setText("♙");
@@ -423,6 +448,7 @@ public class Controller {
         }
     }
 
+    // Puts the captured black pawn next to the board
     private void updateRemovedBlackPawn() {
         if (removedBlackPawn1.getText().isBlank()) {
             removedBlackPawn1.setText("♟");
@@ -443,6 +469,7 @@ public class Controller {
         }
     }
 
+    // Puts the captured piece next to the board
     private void updateRemovedPieces(String removedPiece) {
         switch (removedPiece) {
             case "♙":
@@ -524,6 +551,7 @@ public class Controller {
         }
     }
 
+    // When a pawn reaches the final row, a pup-up window appears, asking which replacement piece is desired for the promotion.
     private String promotion(int destination) {
         String newPiece = "";
         if ((tempBtn1.getText().equals("♙") && destination / 10 == 8) ||
@@ -555,12 +583,14 @@ public class Controller {
         return newPiece;
     }
 
-    // To change more than two fields in case of castling and en passant
+    // In case of castling and 'en passant' not only are the two buttons/fields that where clicked involved in a change,
+    // but also one or two other fields.
     public void specialMove(int pos1, int pos2, String btn2Id) {
-        // En passant
+        // Removes the captured pawn from the game, in case of 'en passant', this removal is only for the UI, the removal of the
+        // piece in the game itself (backend) is performed in the chess.game module and package.
         if ((pos2 % 10 == pos1 % 10 + 1 || pos2 % 10 == pos1 % 10 - 1) &&
                 (tempBtn2.getText().equals(""))) {
-            // White en passant
+            // White pawn passing and capturing a black pawn
             if (pos2 / 10 == pos1 / 10 + 1  && tempBtn1.getText().equals("♙")) {
                 switch (btn2Id) {
                     case "btn61":
@@ -588,7 +618,7 @@ public class Controller {
                         btn58.setText("");
                         break;
                 }
-                // Black en passant
+            // Black pawn passing and capturing a white pawn
             } else if (pos2 / 10 == pos1 / 10 - 1  && tempBtn1.getText().equals("♟")) {
                 switch (btn2Id) {
                     case "btn31":
@@ -617,7 +647,9 @@ public class Controller {
                         break;
                 }
             }
-            // Castling
+        // Places the rook in the correct position when the king is moved for castling,
+        // this repositioning is only for the UI, the repositioning of the rook in the game itself (backend)
+        // is performed in the chess.game module and package.
         } else if ((pos2 % 10 == pos1 % 10 + 2 || pos2 % 10 == pos1 % 10 - 2) &&
                 (tempBtn1.getText().equals("♔") || tempBtn1.getText().equals("♚"))) {
             switch (btn2Id) {
@@ -641,15 +673,18 @@ public class Controller {
         }
     }
 
+    // Starts a new game
     @FXML
     public void onClickNewGame(ActionEvent newGameClicked) {
 
     }
 
+    // Undo the last move
     @FXML
     public void onClickUndo() {
     }
 
+    // Changes the color theme to the default gray theme
     @FXML
     public void onClickGray() {
         for (Button button : darkFieldsSet) {
@@ -661,6 +696,7 @@ public class Controller {
         theme = "gray";
     }
 
+    // Changes the color theme to the green theme
     @FXML
     public void onClickGreen() {
         for (Button button : darkFieldsSet) {
@@ -672,6 +708,7 @@ public class Controller {
         theme = "green";
     }
 
+    // Changes the color theme to the blue theme
     @FXML
     public void onClickBlue() {
         for (Button button : darkFieldsSet) {
@@ -683,6 +720,8 @@ public class Controller {
         theme = "blue";
     }
 
+    // After a second button/field is clicked the color of the first button/field must be reset to its initial color
+    // depending on the active color theme.
     public void resetFieldColors() {
         if (darkFieldsSet.contains(tempBtn1)) {
             switch (theme) {
