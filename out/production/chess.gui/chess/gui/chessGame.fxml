@@ -9,7 +9,7 @@
                 <Menu text="Game">
                     <MenuItem text="New Game"/>
                     <SeparatorMenuItem/>
-                    <MenuItem text="Undo"/>
+                    <MenuItem text="Undo" onAction="#onClickUndo"/>
                 </Menu>
                 <Menu text="Settings">
                     <Menu text="Theme">

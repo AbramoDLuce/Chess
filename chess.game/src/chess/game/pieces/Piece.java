@@ -22,7 +22,7 @@ public abstract class Piece {
     }
 
     // Updates the position of the piece
-    public void updateRowAndColumn(int newRow, int newColumn) {
+    public void setRowAndColumn(int newRow, int newColumn) {
         this.row = newRow;
         this.column = newColumn;
     }

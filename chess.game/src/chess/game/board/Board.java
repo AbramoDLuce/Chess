@@ -11,7 +11,6 @@ public class Board {
     private final Map<Integer, Boolean> field;
     private final Map<Integer, Piece> pieces;
     private boolean whitesTurn;
-    private int actionNumber = -1;
     private final List<String> actionHistory = new ArrayList<>();
     private int positionWhiteKing = 15;
     private int positionBlackKing = 85;
@@ -84,10 +83,10 @@ public class Board {
                     return false;
                 }
             }
-            if (regularMove(oldPlace, newPlace)) {
+            if (regularMoveOrCapture(oldPlace, newPlace)) {
                 return true;
             }
-            if (captureWithPawn(oldPlace, newPlace)) {
+            if (pieces.get(oldPlace) instanceof Pawn && enPassant(oldPlace, newPlace)) {
                 return true;
             }
         }
@@ -96,19 +95,19 @@ public class Board {
     }
 
     // Tests if a specific piece can make this specific move. This is only used for the standard moves and excludes castling and en passant.
-    private boolean regularMove(int oldPlace, int newPlace) {
+    private boolean regularMoveOrCapture(int oldPlace, int newPlace) {
         int oldColumn = oldPlace % 10;
         int oldRow = oldPlace / 10;
         int newColumn = newPlace % 10;
         int newRow = newPlace / 10;
-        if (pieces.get(oldPlace).validMove(newRow, newColumn)) {
+        Piece removedPiece = pieces.get(newPlace);
+        if (pieces.get(oldPlace).validMove(newRow, newColumn) || pieces.get(oldPlace).validCapture(newRow, newColumn)) {
             // When moving a piece, the new position of the pieces must be tested for check, so the player cannot move its own king in a check position.
             if (pieces.get(oldPlace) instanceof King) {
                 placeKing(newPlace);
             }
             // Placing the piece in the new position and updating the board and piece
-            Piece removedPiece = pieces.get(newPlace);
-            pieces.get(oldPlace).updateRowAndColumn(newRow, newColumn);
+            pieces.get(oldPlace).setRowAndColumn(newRow, newColumn);
             field.put(oldPlace, false);
             field.put(newPlace, true);
             pieces.put(newPlace, pieces.get(oldPlace));
@@ -117,61 +116,22 @@ public class Board {
             if (check(whitesTurn).length() > 0) {
                 pieces.put(oldPlace, pieces.get(newPlace));
                 pieces.remove(newPlace);
+                if (removedPiece != null) {
+                    pieces.put(newPlace, removedPiece);
+                }
                 field.put(oldPlace, true);
-                pieces.get(oldPlace).updateRowAndColumn(oldRow, oldColumn);
+                pieces.get(oldPlace).setRowAndColumn(oldRow, oldColumn);
                 if (pieces.get(oldPlace) instanceof King) {
                     placeKing(oldPlace);
                 }
                 // Putting a removed piece back on the board, after it was verified that the move resulted in a check
-                if (removedPiece != null) {
-                    pieces.put(newPlace, removedPiece);
-                } else {
-                    field.put(newPlace, false);
-                }
                 System.out.println("Invalid move");
                 return false;
             }
             // changing players turn
             whitesTurn = !whitesTurn;
-            actionNumber++;
-            // Adding the move to the action history
-            actionHistory.add(intToLetterConverter(oldColumn) + oldRow + "-" + intToLetterConverter(newColumn) + newRow);
+            addToActionHistory(oldColumn, oldRow, newColumn, newRow);
             return true;
-        }
-        return false;
-    }
-
-    // Testing if an attempt is made to capture a piece with a pawn
-    private boolean captureWithPawn(int oldPlace, int newPlace) {
-        int oldColumn = oldPlace % 10;
-        int oldRow = oldPlace / 10;
-        int newColumn = newPlace % 10;
-        int newRow = newPlace / 10;
-        if (pieces.get(oldPlace) instanceof Pawn) {
-            if (field.get(newPlace) && pieces.get(oldPlace).validCapture(newRow, newColumn)) {
-                // Updating board and pieces
-                Piece removedPiece = pieces.get(newPlace);
-                pieces.get(oldPlace).updateRowAndColumn(newRow, newColumn);
-                field.put(oldPlace, false);
-                pieces.put(newPlace, pieces.get(oldPlace));
-                pieces.remove(oldPlace);
-                if (check(whitesTurn).length() > 0) {
-                    // Repositioning pieces after the move has resulted in a check
-                    pieces.put(oldPlace, pieces.get(newPlace));
-                    pieces.remove(newPlace);
-                    pieces.put(newPlace, removedPiece);
-                    field.put(oldPlace, true);
-                    pieces.get(oldPlace).updateRowAndColumn(oldRow, oldColumn);
-                    System.out.println("Invalid move");
-                    return false;
-                }
-
-                whitesTurn = !whitesTurn;
-                actionNumber++;
-                actionHistory.add(intToLetterConverter(oldColumn) + oldRow + "-" + intToLetterConverter(newColumn) + newRow);
-                return true;
-            }
-            return enPassant(oldPlace, newPlace);
         }
         return false;
     }
@@ -183,14 +143,14 @@ public class Board {
         int newColumn = newPlace % 10;
         int newRow = newPlace / 10;
         if (!actionHistory.isEmpty()) {
-            String lastAction = actionHistory.get(actionNumber);
-            if (((lastAction.equals(intToLetterConverter(newColumn) + 2 + "-" + intToLetterConverter(newColumn) + oldRow)) ||
-                    (lastAction.equals(intToLetterConverter(newColumn) + 7 + "-" + intToLetterConverter(newColumn) + oldRow))) &&
+            String lastAction = actionHistory.get(actionHistory.size()-1);
+            if (((lastAction.equals("" + (char) (newColumn + 64) + 2 + '-' + (char) (newColumn + 64) + oldRow)) ||
+                    (lastAction.equals("" + (char) (newColumn + 64) + 7 + '-' + (char) (newColumn + 64) + oldRow))) &&
                     (oldRow == 4 || oldRow == 5)) {
                 if (pieces.get(oldPlace).validCapture(newRow, newColumn)) {
                     // updating pieces and board
                     Piece removedPiece = pieces.get(oldRow * 10 + newColumn);
-                    pieces.get(oldPlace).updateRowAndColumn(newRow, newColumn);
+                    pieces.get(oldPlace).setRowAndColumn(newRow, newColumn);
                     field.put(oldPlace, false);
                     field.put(newPlace, true);
                     field.put(oldRow * 10 + newColumn, false);
@@ -205,13 +165,12 @@ public class Board {
                         field.put(oldRow * 10 + newColumn, true);
                         field.put(newPlace, false);
                         field.put(oldPlace, true);
-                        pieces.get(oldPlace).updateRowAndColumn(oldRow, oldColumn);
+                        pieces.get(oldPlace).setRowAndColumn(oldRow, oldColumn);
                         System.out.println("Invalid move");
                         return false;
                     }
                     whitesTurn = !whitesTurn;
-                    actionNumber++;
-                    actionHistory.add(intToLetterConverter(oldColumn) + oldRow + "-" + intToLetterConverter(newColumn) + newRow);
+                    addToActionHistory(oldColumn, oldRow, newColumn, newRow);
                     return true;
                 }
             }
@@ -231,26 +190,25 @@ public class Board {
                 // Updates the occupied places on the board and the actual position of the pieces
                 pieces.put(newPlace, pieces.get(oldPlace));
                 pieces.remove(oldPlace);
-                pieces.get(newPlace).updateRowAndColumn(newRow, newColumn);
+                pieces.get(newPlace).setRowAndColumn(newRow, newColumn);
                 placeKing(newPlace);
                 field.put(newPlace, true);
                 field.put(oldPlace, false);
                 if (newColumn > oldColumn) {
                     pieces.put(oldRow * 10 + 6, pieces.get(oldRow * 10 + 8));
                     pieces.remove(oldRow * 10 + 8);
-                    pieces.get(oldRow * 10 + 6).updateRowAndColumn(oldRow, 6);
+                    pieces.get(oldRow * 10 + 6).setRowAndColumn(oldRow, 6);
                     field.put(oldRow * 10 + 6, true);
                     field.put(oldRow * 10 + 8, false);
                 } else {
                     pieces.put(oldRow * 10 + 4, pieces.get(oldRow * 10 + 1));
                     pieces.remove(oldRow * 10 + 1);
-                    pieces.get(oldRow * 10 + 4).updateRowAndColumn(oldRow, 6);
+                    pieces.get(oldRow * 10 + 4).setRowAndColumn(oldRow, 6);
                     field.put(oldRow * 10 + 4, true);
                     field.put(oldRow * 10 + 1, false);
                 }
                 whitesTurn = !whitesTurn;
-                actionNumber++;
-                actionHistory.add(intToLetterConverter(oldColumn) + oldRow + "-" + intToLetterConverter(newColumn) + newRow);
+                addToActionHistory(oldColumn, oldRow, newColumn, newRow);
                 return true;
             }
         }
@@ -563,6 +521,11 @@ public class Board {
         }
     }
 
+    // Adds last move to the action history
+    private void addToActionHistory(int oldColumn, int oldRow, int newColumn, int newRow) {
+        actionHistory.add("" + (char) (oldColumn + 64) + oldRow + '-' + (char) (newColumn + 64) + newRow);
+    }
+
     //Returns the full action history of the game in a readable format. Each line is a move.
     public String getActionHistory() {
         StringBuilder actions = new StringBuilder();
@@ -585,34 +548,5 @@ public class Board {
     // Returns true if it is white's turn and false if it is black's turn
     public boolean getWhitesTurn() {
         return whitesTurn;
-    }
-
-    // Converts the column numbers into letters for writing to the history of actions
-    private String intToLetterConverter(int number) throws IndexOutOfBoundsException {
-        switch (number) {
-            case 1:
-                return "A";
-            case 2:
-                return "B";
-            case 3:
-                return "C";
-            case 4:
-                return "D";
-            case 5:
-                return "E";
-            case 6:
-                return "F";
-            case 7:
-                return "G";
-            case 8:
-                return "H";
-            default:
-                class ColumnIndexOutOfBoundsException extends IndexOutOfBoundsException {
-                    public ColumnIndexOutOfBoundsException(String s) {
-                        super(s);
-                    }
-                }
-                throw new ColumnIndexOutOfBoundsException("Column number must be between 1 and 9. Column " + number + " invalid.");
-        }
     }
 }
