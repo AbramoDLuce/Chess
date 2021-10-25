@@ -8,9 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public class Controller {
 
@@ -218,15 +216,14 @@ public class Controller {
     private final Set<Button> darkFieldsSet = new HashSet<>();
     private final Set<Button> lightFieldsSet = new HashSet<>();
     private final Set<Button> fieldsSet = new HashSet<>();
-    private final Set<Label> removedDarkPiecesSet = new HashSet<>();
-    private final Set<Label> removedLightPiecesSet = new HashSet<>();
-    private final Set<Label> removedPiecesSet = new HashSet<>();
+    private final Set<Label> removedPiecesSet = new LinkedHashSet<>();
 
     private Board board = new Board();
     private int firstBtnClicked = 0;
     private Button tempBtn1 = null;
     private Button tempBtn2 = null;
     private String theme = "gray";
+    private List<Label> removedPiecesHistory = new LinkedList<>();
 
     // Adds all buttons that represent the fields and the labels for the removed pieces to their collections
     public void initialize() {
@@ -234,11 +231,7 @@ public class Controller {
         initializeLightFieldsSet();
         fieldsSet.addAll(darkFieldsSet);
         fieldsSet.addAll(lightFieldsSet);
-
-        initializeRemovedDarkPiecesSet();
-        initializeRemovedLightPiecesSet();
-        removedPiecesSet.addAll(removedLightPiecesSet);
-        removedPiecesSet.addAll(removedDarkPiecesSet);
+        initializeRemovedPiecesSet();
     }
 
     // Adds the white/light colored buttons representing the white/light fields to their collection
@@ -313,42 +306,38 @@ public class Controller {
         darkFieldsSet.add(btn88);
     }
 
-    // Adds the labels representing the captured light/white pieces to their collection
-    private void initializeRemovedLightPiecesSet() {
-        removedLightPiecesSet.add(removedWhitePawn1);
-        removedLightPiecesSet.add(removedWhitePawn2);
-        removedLightPiecesSet.add(removedWhitePawn3);
-        removedLightPiecesSet.add(removedWhitePawn4);
-        removedLightPiecesSet.add(removedWhitePawn5);
-        removedLightPiecesSet.add(removedWhitePawn6);
-        removedLightPiecesSet.add(removedWhitePawn7);
-        removedLightPiecesSet.add(removedWhitePawn8);
-        removedLightPiecesSet.add(removedWhiteRook1);
-        removedLightPiecesSet.add(removedWhiteRook2);
-        removedLightPiecesSet.add(removedWhiteKnight1);
-        removedLightPiecesSet.add(removedWhiteKnight2);
-        removedLightPiecesSet.add(removedWhiteBishop1);
-        removedLightPiecesSet.add(removedWhiteBishop2);
-        removedLightPiecesSet.add(removedWhiteQueen);
-    }
-
-    // Adds the labels representing the captured dark/black pieces to their collection
-    private void initializeRemovedDarkPiecesSet() {
-        removedDarkPiecesSet.add(removedBlackPawn1);
-        removedDarkPiecesSet.add(removedBlackPawn2);
-        removedDarkPiecesSet.add(removedBlackPawn3);
-        removedDarkPiecesSet.add(removedBlackPawn4);
-        removedDarkPiecesSet.add(removedBlackPawn5);
-        removedDarkPiecesSet.add(removedBlackPawn6);
-        removedDarkPiecesSet.add(removedBlackPawn7);
-        removedDarkPiecesSet.add(removedBlackPawn8);
-        removedDarkPiecesSet.add(removedBlackRook1);
-        removedDarkPiecesSet.add(removedBlackRook2);
-        removedDarkPiecesSet.add(removedBlackKnight1);
-        removedDarkPiecesSet.add(removedBlackKnight2);
-        removedDarkPiecesSet.add(removedBlackBishop1);
-        removedDarkPiecesSet.add(removedBlackBishop2);
-        removedDarkPiecesSet.add(removedBlackQueen);
+    // Adds the labels representing the captured pieces to their collection
+    private void initializeRemovedPiecesSet() {
+        removedPiecesSet.add(removedWhitePawn1);
+        removedPiecesSet.add(removedWhitePawn2);
+        removedPiecesSet.add(removedWhitePawn3);
+        removedPiecesSet.add(removedWhitePawn4);
+        removedPiecesSet.add(removedWhitePawn5);
+        removedPiecesSet.add(removedWhitePawn6);
+        removedPiecesSet.add(removedWhitePawn7);
+        removedPiecesSet.add(removedWhitePawn8);
+        removedPiecesSet.add(removedWhiteRook1);
+        removedPiecesSet.add(removedWhiteRook2);
+        removedPiecesSet.add(removedWhiteKnight1);
+        removedPiecesSet.add(removedWhiteKnight2);
+        removedPiecesSet.add(removedWhiteBishop1);
+        removedPiecesSet.add(removedWhiteBishop2);
+        removedPiecesSet.add(removedWhiteQueen);
+        removedPiecesSet.add(removedBlackPawn1);
+        removedPiecesSet.add(removedBlackPawn2);
+        removedPiecesSet.add(removedBlackPawn3);
+        removedPiecesSet.add(removedBlackPawn4);
+        removedPiecesSet.add(removedBlackPawn5);
+        removedPiecesSet.add(removedBlackPawn6);
+        removedPiecesSet.add(removedBlackPawn7);
+        removedPiecesSet.add(removedBlackPawn8);
+        removedPiecesSet.add(removedBlackRook1);
+        removedPiecesSet.add(removedBlackRook2);
+        removedPiecesSet.add(removedBlackKnight1);
+        removedPiecesSet.add(removedBlackKnight2);
+        removedPiecesSet.add(removedBlackBishop1);
+        removedPiecesSet.add(removedBlackBishop2);
+        removedPiecesSet.add(removedBlackQueen);
     }
 
     // Assigns the first or second button/field clicked to the correct member variable reference and
@@ -427,127 +416,24 @@ public class Controller {
         lblActionHistory.setText(board.getActionHistory());
     }
 
-    // Puts the captured white pawn next to the board
-    private void updateRemovedWhitePawn() {
-        if (removedWhitePawn1.getText().isBlank()) {
-            removedWhitePawn1.setText("♙");
-        } else if (removedWhitePawn2.getText().isBlank()) {
-            removedWhitePawn2.setText("♙");
-        } else if (removedWhitePawn3.getText().isBlank()) {
-            removedWhitePawn3.setText("♙");
-        } else if (removedWhitePawn4.getText().isBlank()) {
-            removedWhitePawn4.setText("♙");
-        } else if (removedWhitePawn5.getText().isBlank()) {
-            removedWhitePawn5.setText("♙");
-        } else if (removedWhitePawn6.getText().isBlank()) {
-            removedWhitePawn6.setText("♙");
-        } else if (removedWhitePawn7.getText().isBlank()) {
-            removedWhitePawn7.setText("♙");
-        } else {
-            removedWhitePawn8.setText("♙");
-        }
-    }
-
-    // Puts the captured black pawn next to the board
-    private void updateRemovedBlackPawn() {
-        if (removedBlackPawn1.getText().isBlank()) {
-            removedBlackPawn1.setText("♟");
-        } else if (removedBlackPawn2.getText().isBlank()) {
-            removedBlackPawn2.setText("♟");
-        } else if (removedBlackPawn3.getText().isBlank()) {
-            removedBlackPawn3.setText("♟");
-        } else if (removedBlackPawn4.getText().isBlank()) {
-            removedBlackPawn4.setText("♟");
-        } else if (removedBlackPawn5.getText().isBlank()) {
-            removedBlackPawn5.setText("♟");
-        } else if (removedBlackPawn6.getText().isBlank()) {
-            removedBlackPawn6.setText("♟");
-        } else if (removedBlackPawn7.getText().isBlank()) {
-            removedBlackPawn7.setText("♟");
-        } else {
-            removedBlackPawn8.setText("♟");
-        }
-    }
-
     // Puts the captured piece next to the board
-    private void updateRemovedPieces(String removedPiece) {
-        switch (removedPiece) {
-            case "♙":
-                updateRemovedWhitePawn();
-                break;
-            case "♖":
-                if (removedWhiteRook1.getText().isBlank()) {
-                    removedWhiteRook1.setText("♖");
-                } else if (removedWhiteRook2.getText().isBlank()) {
-                    removedBlackRook2.setText("♖");
+    private void updateRemovedPieces(String capturedPiece) {
+        Label lblRemovedPiece = null;
+        try {
+            lblRemovedPiece = searchRemovedPiece(capturedPiece, false);
+        } catch (ItemNotFoundException exception1) {
+            try {
+                if (board.getWhitesTurn()) {
+                    lblRemovedPiece = searchRemovedPiece("♟", false);
                 } else {
-                    updateRemovedWhitePawn();
+                    lblRemovedPiece = searchRemovedPiece("♙", false);
                 }
-                break;
-            case "♘":
-                if (removedWhiteKnight1.getText().isBlank()) {
-                    removedWhiteKnight1.setText("♘");
-                } else if (removedWhiteKnight2.getText().isBlank()) {
-                    removedBlackKnight2.setText("♘");
-                } else {
-                    updateRemovedWhitePawn();
-                }
-                break;
-            case "♗":
-                if (removedWhiteBishop1.getText().isBlank()) {
-                    removedWhiteBishop1.setText("♗");
-                } else if (removedWhiteBishop2.getText().isBlank()) {
-                    removedBlackBishop2.setText("♗");
-                } else {
-                    updateRemovedWhitePawn();
-                }
-                break;
-            case "♕":
-                if (removedWhiteQueen.getText().isBlank()) {
-                    removedWhiteQueen.setText("♕");
-                } else {
-                    updateRemovedWhitePawn();
-                }
-                break;
-            case "♟":
-                updateRemovedBlackPawn();
-                break;
-            case "♜":
-                if (removedBlackRook1.getText().isBlank()) {
-                    removedBlackRook1.setText("♜");
-                } else if (removedBlackRook2.getText().isBlank()) {
-                    removedBlackRook2.setText("♜");
-                } else {
-                    updateRemovedBlackPawn();
-                }
-                break;
-            case "♞":
-                if (removedBlackKnight1.getText().isBlank()) {
-                    removedBlackKnight1.setText("♞");
-                } else if (removedBlackKnight2.getText().isBlank()) {
-                    removedBlackKnight2.setText("♞");
-                } else {
-                    updateRemovedBlackPawn();
-                }
-                break;
-            case "♝":
-                if (removedBlackBishop1.getText().isBlank()) {
-                    removedBlackBishop1.setText("♝");
-                } else if (removedBlackBishop2.getText().isBlank()) {
-                    removedBlackBishop2.setText("♝");
-                } else {
-                    updateRemovedBlackPawn();
-                }
-                break;
-            case "♛":
-                if (removedBlackQueen.getText().isBlank()) {
-                    removedBlackQueen.setText("♛");
-                } else {
-                    updateRemovedBlackPawn();
-                }
-                break;
-            default:
-                break;
+            } catch (ItemNotFoundException exception2) {
+                System.out.println(exception2.getMessage());
+            }
+        } finally {
+            lblRemovedPiece.setVisible(true);
+            removedPiecesHistory.add(lblRemovedPiece);
         }
     }
 
@@ -618,6 +504,7 @@ public class Controller {
                         btn58.setText("");
                         break;
                 }
+                updateRemovedPieces("♟");
             // Black pawn passing and capturing a white pawn
             } else if (pos2 / 10 == pos1 / 10 - 1  && tempBtn1.getText().equals("♟")) {
                 switch (btn2Id) {
@@ -646,6 +533,7 @@ public class Controller {
                         btn48.setText("");
                         break;
                 }
+                updateRemovedPieces("♙");
             }
         // Places the rook in the correct position when the king is moved for castling,
         // this repositioning is only for the UI, the repositioning of the rook in the game itself (backend)
@@ -681,7 +569,80 @@ public class Controller {
 
     // Undo the last move
     @FXML
-    public void onClickUndo() {
+    public void onClickUndo() throws Exception {
+        String removedPiece = board.getLastCapturedPiece();
+        int[] positions = board.undo();
+        if (positions.length == 0) {
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            alert.getButtonTypes().add(ButtonType.OK);
+            alert.setTitle("First move");
+            alert.setContentText("Action history is empty, cannot undo last move!");
+            alert.showAndWait();
+            return;
+        }
+        tempBtn2 = searchButton(positions[0]);
+        tempBtn1 = searchButton(positions[1]);
+        tempBtn2.setText(tempBtn1.getText());
+        tempBtn1.setText("");
+        if (positions[2] == 1) {
+            if (board.getWhitesTurn()) {
+                tempBtn2.setText("♙");
+            } else {
+                tempBtn2.setText("♟");
+            }
+        }
+        if (positions.length == 4) {
+            Label lblRemovedPiece = removedPiecesHistory.get(removedPiecesHistory.size()-1);
+            lblRemovedPiece.setVisible(false);
+            removedPiecesHistory.remove(lblRemovedPiece);
+            searchButton(positions[3]).setText(removedPiece);
+
+        } else if (positions.length == 5) {
+            if (board.getWhitesTurn()) {
+                searchButton(positions[3]).setText("♖");
+            } else {
+                searchButton(positions[3]).setText("♜");
+            }
+            searchButton(positions[4]).setText("");
+        }
+        if (board.getWhitesTurn()) {
+            lblTurn.setText("It is white's turn");
+        } else {
+            lblTurn.setText("It is black's turn");
+        }
+        if (board.check(board.getWhitesTurn()).length() > 0) {
+            lblTurn.setText("Check! " + lblTurn.getText());
+        }
+        lblActionHistory.setText(board.getActionHistory());
+        firstBtnClicked = 0;
+        tempBtn1 = null;
+        tempBtn2 = null;
+    }
+
+    private class ItemNotFoundException extends Exception {
+        private ItemNotFoundException (String message) {
+            super(message);
+        }
+    }
+
+    private Button searchButton(int buttonLocation) throws ItemNotFoundException {
+        for (Button button : fieldsSet) {
+            int buttonPosition = Integer.parseInt(button.getId().substring(3));
+            if (buttonPosition == buttonLocation) {
+                return button;
+            }
+        }
+
+        throw new ItemNotFoundException("Button not present in FieldsSet");
+    }
+
+    private Label searchRemovedPiece(String capturedPiece, boolean visible) throws ItemNotFoundException {
+        for (Label lblRemovedPiece : removedPiecesSet) {
+            if (lblRemovedPiece.getText().equals(capturedPiece) && lblRemovedPiece.isVisible() == visible) {
+                return lblRemovedPiece;
+            }
+        }
+        throw new ItemNotFoundException("Label not present in removedPiecesSet");
     }
 
     // Changes the color theme to the default gray theme

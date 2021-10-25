@@ -9,7 +9,7 @@
                 <Menu text="Game">
                     <MenuItem text="New Game"/>
                     <SeparatorMenuItem/>
-                    <MenuItem text="Undo" onAction="#onClickUndo"/>
+                    <MenuItem text="Undo (ctrl+_z)" onAction="#onClickUndo"/>
                 </Menu>
                 <Menu text="Settings">
                     <Menu text="Theme">
@@ -37,65 +37,65 @@
     <right>
         <GridPane>
             <Label GridPane.columnIndex="0" GridPane.rowIndex="0" fx:id="removedWhiteRook1"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♖" visible="false"/>
             <Label GridPane.columnIndex="0" GridPane.rowIndex="1" fx:id="removedWhiteRook2"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♖" visible="false"/>
             <Label GridPane.columnIndex="0" GridPane.rowIndex="2" fx:id="removedWhiteKnight1"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♘" visible="false"/>
             <Label GridPane.columnIndex="0" GridPane.rowIndex="3" fx:id="removedWhiteKnight2"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♘" visible="false"/>
             <Label GridPane.columnIndex="0" GridPane.rowIndex="4" fx:id="removedWhiteBishop1"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♗" visible="false"/>
             <Label GridPane.columnIndex="0" GridPane.rowIndex="5" fx:id="removedWhiteBishop2"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♗" visible="false"/>
             <Label GridPane.columnIndex="0" GridPane.rowIndex="6" fx:id="removedWhiteQueen"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♕" visible="false"/>
             <Label GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="removedWhitePawn1"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♙" visible="false"/>
             <Label GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="removedWhitePawn2"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♙" visible="false"/>
             <Label GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="removedWhitePawn3"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♙" visible="false"/>
             <Label GridPane.columnIndex="1" GridPane.rowIndex="3" fx:id="removedWhitePawn4"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♙" visible="false"/>
             <Label GridPane.columnIndex="1" GridPane.rowIndex="4" fx:id="removedWhitePawn5"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♙" visible="false"/>
             <Label GridPane.columnIndex="1" GridPane.rowIndex="5" fx:id="removedWhitePawn6"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♙" visible="false"/>
             <Label GridPane.columnIndex="1" GridPane.rowIndex="6" fx:id="removedWhitePawn7"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♙" visible="false"/>
             <Label GridPane.columnIndex="1" GridPane.rowIndex="7" fx:id="removedWhitePawn8"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♙" visible="false"/>
             <Label GridPane.columnIndex="2" GridPane.rowIndex="0" fx:id="removedBlackRook1"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♜" visible="false"/>
             <Label GridPane.columnIndex="2" GridPane.rowIndex="1" fx:id="removedBlackRook2"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♜" visible="false"/>
             <Label GridPane.columnIndex="2" GridPane.rowIndex="2" fx:id="removedBlackKnight1"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♞" visible="false"/>
             <Label GridPane.columnIndex="2" GridPane.rowIndex="3" fx:id="removedBlackKnight2"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♞" visible="false"/>
             <Label GridPane.columnIndex="2" GridPane.rowIndex="4" fx:id="removedBlackBishop1"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♝" visible="false"/>
             <Label GridPane.columnIndex="2" GridPane.rowIndex="5" fx:id="removedBlackBishop2"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♝" visible="false"/>
             <Label GridPane.columnIndex="2" GridPane.rowIndex="6" fx:id="removedBlackQueen"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♛" visible="false"/>
             <Label GridPane.columnIndex="3" GridPane.rowIndex="0" fx:id="removedBlackPawn1"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♟" visible="false"/>
             <Label GridPane.columnIndex="3" GridPane.rowIndex="1" fx:id="removedBlackPawn2"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♟" visible="false"/>
             <Label GridPane.columnIndex="3" GridPane.rowIndex="2" fx:id="removedBlackPawn3"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♟" visible="false"/>
             <Label GridPane.columnIndex="3" GridPane.rowIndex="3" fx:id="removedBlackPawn4"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♟" visible="false"/>
             <Label GridPane.columnIndex="3" GridPane.rowIndex="4" fx:id="removedBlackPawn5"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♟" visible="false"/>
             <Label GridPane.columnIndex="3" GridPane.rowIndex="5" fx:id="removedBlackPawn6"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♟" visible="false"/>
             <Label GridPane.columnIndex="3" GridPane.rowIndex="6" fx:id="removedBlackPawn7"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♟" visible="false"/>
             <Label GridPane.columnIndex="3" GridPane.rowIndex="7" fx:id="removedBlackPawn8"
-                   style="-fx-font-size: 34px" prefWidth="50"/>
+                   style="-fx-font-size: 34px" prefWidth="50" text="♟" visible="false"/>
         </GridPane>
     </right>
     <center>

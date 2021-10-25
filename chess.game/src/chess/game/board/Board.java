@@ -14,6 +14,7 @@ public class Board {
     private final List<String> actionHistory = new ArrayList<>();
     private int positionWhiteKing = 15;
     private int positionBlackKing = 85;
+    private List<Piece> capturedPieces= new LinkedList<>();
 
     // Creating chess board with all the pieces on it
     public Board() {
@@ -101,7 +102,8 @@ public class Board {
         int newColumn = newPlace % 10;
         int newRow = newPlace / 10;
         Piece removedPiece = pieces.get(newPlace);
-        if (pieces.get(oldPlace).validMove(newRow, newColumn) || pieces.get(oldPlace).validCapture(newRow, newColumn)) {
+        if (pieces.get(oldPlace).validMove(newRow, newColumn) ||
+                (pieces.get(oldPlace).validCapture(newRow, newColumn)) && field.get(newPlace)) {
             // When moving a piece, the new position of the pieces must be tested for check, so the player cannot move its own king in a check position.
             if (pieces.get(oldPlace) instanceof King) {
                 placeKing(newPlace);
@@ -118,19 +120,23 @@ public class Board {
                 pieces.remove(newPlace);
                 if (removedPiece != null) {
                     pieces.put(newPlace, removedPiece);
+                } else {
+                    field.put(newPlace, false);
                 }
                 field.put(oldPlace, true);
                 pieces.get(oldPlace).setRowAndColumn(oldRow, oldColumn);
                 if (pieces.get(oldPlace) instanceof King) {
                     placeKing(oldPlace);
                 }
-                // Putting a removed piece back on the board, after it was verified that the move resulted in a check
                 System.out.println("Invalid move");
                 return false;
             }
             // changing players turn
             whitesTurn = !whitesTurn;
-            addToActionHistory(oldColumn, oldRow, newColumn, newRow);
+            if (removedPiece != null) {
+                capturedPieces.add(removedPiece);
+            }
+            addToActionHistory(oldColumn, oldRow, newColumn, newRow, removedPiece != null, false, false);
             return true;
         }
         return false;
@@ -170,7 +176,8 @@ public class Board {
                         return false;
                     }
                     whitesTurn = !whitesTurn;
-                    addToActionHistory(oldColumn, oldRow, newColumn, newRow);
+                    capturedPieces.add(removedPiece);
+                    addToActionHistory(oldColumn, oldRow, newColumn, newRow, true, true, false);
                     return true;
                 }
             }
@@ -208,7 +215,7 @@ public class Board {
                     field.put(oldRow * 10 + 1, false);
                 }
                 whitesTurn = !whitesTurn;
-                addToActionHistory(oldColumn, oldRow, newColumn, newRow);
+                addToActionHistory(oldColumn, oldRow, newColumn, newRow, false, false, true);
                 return true;
             }
         }
@@ -218,27 +225,32 @@ public class Board {
     // promoting of a pawn that reached the final row
     public void promote(int newRow, int newColumn, String newPiece) {
         int newPlace = newRow * 10 + newColumn;
+        String lastAction = actionHistory.get(actionHistory.size()-1);
         boolean exitLoop = false;
         while (!exitLoop) {
             switch (newPiece) {
                 case "♖":
                 case "♜":
                     pieces.put(newPlace, new Rook(newRow, newColumn, pieces.get(newPlace).isWhite()));
+                    lastAction += " -> Rook";
                     exitLoop = true;
                     break;
                 case "♘":
                 case "♞":
                     pieces.put(newPlace, new Knight(newRow, newColumn, pieces.get(newPlace).isWhite()));
+                    lastAction += " -> Knight";
                     exitLoop = true;
                     break;
                 case "♗":
                 case "♝":
                     pieces.put(newPlace, new Bishop(newRow, newColumn, pieces.get(newPlace).isWhite()));
+                    lastAction += " -> Bishop";
                     exitLoop = true;
                     break;
                 case "♕":
                 case "♛":
                     pieces.put(newPlace, new Queen(newRow, newColumn, pieces.get(newPlace).isWhite()));
+                    lastAction += " -> Queen";
                     exitLoop = true;
                     break;
                 default:
@@ -246,6 +258,8 @@ public class Board {
                     break;
             }
         }
+        actionHistory.remove(actionHistory.size()-1);
+        actionHistory.add(lastAction);
     }
 
     // Checks by which pieces the king is check
@@ -521,12 +535,88 @@ public class Board {
         }
     }
 
-    // Adds last move to the action history
-    private void addToActionHistory(int oldColumn, int oldRow, int newColumn, int newRow) {
-        actionHistory.add("" + (char) (oldColumn + 64) + oldRow + '-' + (char) (newColumn + 64) + newRow);
+    // Undo the last move
+    public int[] undo() {
+        if (actionHistory.isEmpty()) {
+            return new int[] {};
+        }
+        String lastAction = actionHistory.get(actionHistory.size()-1);
+        int previousColumn = lastAction.charAt(0) - 64;
+        int previousRow = lastAction.charAt(1) - 48;
+        int currentColumn = lastAction.charAt(3) - 64;
+        int currentRow = lastAction.charAt(4) - 48;
+        int previousPosition = previousRow * 10 +  previousColumn;
+        int currentPosition = currentRow * 10 + currentColumn;
+        int promoted = 0;
+        pieces.get(currentPosition).setRowAndColumn(previousRow, previousColumn);
+        pieces.put(previousPosition, pieces.get(currentPosition));
+        pieces.remove(currentPosition);
+        field.put(previousPosition, true);
+        field.put(currentPosition, false);
+        if (lastAction.length() > 11) {
+            pieces.remove(previousPosition);
+            pieces.put(previousPosition, new Pawn(previousRow, previousColumn, !whitesTurn));
+            promoted = 1;
+        }
+        actionHistory.remove(actionHistory.size()-1);
+        whitesTurn = !whitesTurn;
+        // In case of en passant, the pawn has to be placed back on the board
+        if (lastAction.contains("(ep)")) {
+            int capturedPawnPosition = previousRow * 10 + currentColumn;
+            field.put(capturedPawnPosition, true);
+            pieces.put(capturedPawnPosition, capturedPieces.get(capturedPieces.size()-1));
+            capturedPieces.remove(capturedPieces.size()-1);
+            return new int[] {previousPosition, currentPosition, promoted, capturedPawnPosition};
+        // In case of a capture, the captured piece has to be placed back on the board
+        } else if (lastAction.charAt(2) == 'x') {
+            field.put(currentPosition, true);
+            pieces.put(currentPosition, capturedPieces.get(capturedPieces.size()-1));
+            capturedPieces.remove(capturedPieces.size()-1);
+            return new int[] {previousPosition, currentPosition, promoted, currentPosition};
+        // In case of castling, the rook has to be put back in its original position
+        } else if (lastAction.length() == 11) {
+            int rookPreviousPosition;
+            int rookCurrentPosition;
+            if (currentColumn < previousColumn) {
+                rookPreviousPosition = previousRow * 10 + 1;
+                rookCurrentPosition = currentRow * 10 + 4;
+            } else {
+                rookPreviousPosition = previousRow * 10 + 8;
+                rookCurrentPosition = currentRow * 10 + 6;
+            }
+            pieces.put(rookPreviousPosition, pieces.get(rookCurrentPosition));
+            pieces.remove(rookCurrentPosition);
+            field.put(rookPreviousPosition, true);
+            field.put(rookCurrentPosition, false);
+            pieces.get(rookPreviousPosition).setRowAndColumn(previousRow, 1);
+            return new int[] {previousPosition, currentPosition, promoted, rookPreviousPosition, rookCurrentPosition};
+        }
+        return new int[] {previousPosition, currentPosition, promoted};
     }
 
-    //Returns the full action history of the game in a readable format. Each line is a move.
+    // Adds last move to the action history
+    private void addToActionHistory(int oldColumn, int oldRow, int newColumn, int newRow, boolean capture, boolean enPassant, boolean castling) {
+        String action = "" + (char) (oldColumn + 64) + oldRow;
+        if (capture) {
+            action += "x";
+        } else {
+            action += "-";
+        }
+        action += "" + (char) (newColumn + 64) + newRow;
+        if (enPassant) {
+            action += " (ep)";
+        }
+        if (castling) {
+            if (newColumn > oldColumn) {
+                action += " " + (char) (8 + 64) + oldRow + "-" + (char) (6 + 64) + newRow;
+            } else {
+                action += " " + (char) (1 + 64) + oldRow + "-" + (char) (4 + 64) + newRow;
+            }
+        }
+        actionHistory.add(action);
+    }
+
+    // Returns the full action history of the game in a readable format for the UI. Each line is a move.
     public String getActionHistory() {
         StringBuilder actions = new StringBuilder();
         int actionCounter = 1;
@@ -543,6 +633,40 @@ public class Board {
             actionCounter++;
         }
         return actions.toString();
+    }
+
+    // Returns the last captured piece as symbol for the UI
+    public String getLastCapturedPiece() {
+        if (capturedPieces.isEmpty()) {
+            return "";
+        }
+        Piece capturedPiece = capturedPieces.get(capturedPieces.size()-1);
+        if (capturedPiece.isWhite()) {
+            if (capturedPiece instanceof Pawn) {
+                return "♙";
+            } else if (capturedPiece instanceof Rook) {
+                return "♖";
+            } else if (capturedPiece instanceof Knight) {
+                return "♘";
+            } else if (capturedPiece instanceof Bishop) {
+                return "♗";
+            } else if (capturedPiece instanceof Queen) {
+                return "♕";
+            }
+        } else {
+            if (capturedPiece instanceof Pawn) {
+                return "♟";
+            } else if (capturedPiece instanceof Rook) {
+                return "♜";
+            } else if (capturedPiece instanceof Knight) {
+                return "♞";
+            } else if (capturedPiece instanceof Bishop) {
+                return "♝";
+            } else if (capturedPiece instanceof Queen) {
+                return "♛";
+            }
+        }
+        return "";
     }
 
     // Returns true if it is white's turn and false if it is black's turn
