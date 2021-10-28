@@ -1,6 +1,8 @@
 package chess.gui;
 
 import chess.game.board.Board;
+import chess.game.pieces.Piece;
+import chess.io.DataAccess;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -340,6 +342,35 @@ public class Controller {
         removedPiecesSet.add(removedBlackQueen);
     }
 
+    private void placePieces() {
+        Map<Integer, Piece> pieces = board.getPieces();
+        List<Piece> capturedPieces = board.getCapturedPieces();
+        removedPiecesHistory.clear();
+        for (Button field : fieldsSet) {
+            field.setText("");
+        }
+        piecesLoop: for (Map.Entry<Integer, Piece> entry : pieces.entrySet()) {
+            for (Button field : fieldsSet) {
+                if (Integer.parseInt(field.getId().substring(3)) == entry.getKey()) {
+                    field.setText(entry.getValue().toString());
+                    continue piecesLoop;
+                }
+            }
+        }
+        for (Label lblRemovedPiece : removedPiecesSet) {
+            lblRemovedPiece.setVisible(false);
+        }
+        capturedPiecesLoop: for (Piece piece : capturedPieces) {
+            for (Label lblRemovedPiece : removedPiecesSet) {
+                if (piece.toString().equals(lblRemovedPiece.getText()) && !lblRemovedPiece.isVisible()) {
+                    lblRemovedPiece.setVisible(true);
+                    removedPiecesHistory.add(lblRemovedPiece);
+                    continue capturedPiecesLoop;
+                }
+            }
+        }
+    }
+
     // Assigns the first or second button/field clicked to the correct member variable reference and
     // starts the action method.
     @FXML
@@ -385,26 +416,7 @@ public class Controller {
                 String newPiece = promotion(tempBtn2Location);
                 board.promote(tempBtn2Location / 10, tempBtn2Location % 10, newPiece);
                 tempBtn1.setText("");
-                if (board.getWhitesTurn()) {
-                    lblTurn.setText("It is white's turn");
-                } else {
-                    lblTurn.setText("It is black's turn");
-                }
-                if (board.check(board.getWhitesTurn()).length() > 0) {
-                    if (board.checkMate(board.getWhitesTurn())) {
-                        if (board.getWhitesTurn()) {
-                            lblTurn.setText("Checkmate! Black wins!");
-                        } else {
-                            lblTurn.setText("Checkmate! White wins!");
-                        }
-                    }
-                    if (!lblTurn.getText().contains("Checkmate")) {
-                        lblTurn.setText("Check! " + lblTurn.getText());
-                    }
-                }
-                if (board.stalemate(board.getWhitesTurn())) {
-                    System.out.println("Stalemate, it is a draw");
-                }
+                updateTurnLabel();
             } else {
                 checkWarning();
             }
@@ -561,6 +573,29 @@ public class Controller {
         }
     }
 
+    private void updateTurnLabel() {
+        if (board.getWhitesTurn()) {
+            lblTurn.setText("It is white's turn");
+        } else {
+            lblTurn.setText("It is black's turn");
+        }
+        if (board.check(board.getWhitesTurn()).length() > 0) {
+            if (board.checkMate(board.getWhitesTurn())) {
+                if (board.getWhitesTurn()) {
+                    lblTurn.setText("Checkmate! Black wins!");
+                } else {
+                    lblTurn.setText("Checkmate! White wins!");
+                }
+            }
+            if (!lblTurn.getText().contains("Checkmate")) {
+                lblTurn.setText("Check! " + lblTurn.getText());
+            }
+        }
+        if (board.stalemate(board.getWhitesTurn())) {
+            System.out.println("Stalemate, it is a draw");
+        }
+    }
+
     // Starts a new game
     @FXML
     public void onClickNewGame(ActionEvent newGameClicked) {
@@ -605,21 +640,64 @@ public class Controller {
             }
             searchButton(positions[4]).setText("");
         }
-        if (board.getWhitesTurn()) {
-            lblTurn.setText("It is white's turn");
-        } else {
-            lblTurn.setText("It is black's turn");
-        }
-        if (board.check(board.getWhitesTurn()).length() > 0) {
-            lblTurn.setText("Check! " + lblTurn.getText());
-        }
+        updateTurnLabel();
         lblActionHistory.setText(board.getActionHistory());
         firstBtnClicked = 0;
         tempBtn1 = null;
         tempBtn2 = null;
     }
 
-    private class ItemNotFoundException extends Exception {
+    public void onClickSave() {
+        String gameToSaveName = openSaveLoadDialog(true);
+        DataAccess.saveGame(gameToSaveName, board);
+    }
+
+    public void onClickLoad() {
+        String gameToLoadName = openSaveLoadDialog(false);
+        Board game = DataAccess.loadGame(gameToLoadName);
+        this.board = new Board(game);
+        placePieces();
+        lblActionHistory.setText(board.getActionHistory());
+        updateTurnLabel();
+    }
+
+    private String openSaveLoadDialog(Boolean isToSave) {
+        ButtonType btnSaveLoad;
+        Dialog<ButtonType> dialogSaveLoadGame = new Dialog<>();
+        dialogSaveLoadGame.initOwner(borderPaneChessBoard.getScene().getWindow());
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        if (isToSave) {
+            btnSaveLoad = new ButtonType("Save");
+            dialogSaveLoadGame.setTitle("Save Game");
+            fxmlLoader.setLocation(getClass().getResource("dialogSaveGame.fxml"));
+        } else {
+            btnSaveLoad = new ButtonType("Load");
+            dialogSaveLoadGame.setTitle("Load Game");
+            fxmlLoader.setLocation(getClass().getResource("dialogLoadGame.fxml"));
+        }
+        try {
+            dialogSaveLoadGame.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't open dialogSaveLoadGame: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        dialogSaveLoadGame.getDialogPane().getButtonTypes().add(btnSaveLoad);
+        dialogSaveLoadGame.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+
+        Optional<ButtonType> result = dialogSaveLoadGame.showAndWait();
+        if (result.isPresent() && result.get() == btnSaveLoad) {
+            SaveLoadController controller = fxmlLoader.getController();
+            if (isToSave) {
+                return controller.getNameGame();
+            } else {
+                return controller.getGameToLoad();
+            }
+        }
+        return "";
+    }
+
+    private static class ItemNotFoundException extends Exception {
         private ItemNotFoundException (String message) {
             super(message);
         }

@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/Chess.iml" filepath="$PROJECT_DIR$/Chess.iml" />
       <module fileurl="file://$PROJECT_DIR$/chess.game/chess.game.iml" filepath="$PROJECT_DIR$/chess.game/chess.game.iml" />
       <module fileurl="file://$PROJECT_DIR$/chess.gui/chess.gui.iml" filepath="$PROJECT_DIR$/chess.gui/chess.gui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chess.io/chess.io.iml" filepath="$PROJECT_DIR$/chess.io/chess.io.iml" />
     </modules>
   </component>
 </project>

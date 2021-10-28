@@ -46,4 +46,13 @@ public class Pawn extends Piece {
         }
         return fieldsPassed;
     }
+
+    @Override
+    public String toString() {
+        if (isWhite) {
+            return "♙";
+        } else {
+            return "♟";
+        }
+    }
 }

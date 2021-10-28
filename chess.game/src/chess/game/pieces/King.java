@@ -30,4 +30,13 @@ public class King extends Piece{
     public List<Integer> placesPassed(int newRow, int newColumn) {
         return new LinkedList<>();
     }
+
+    @Override
+    public String toString() {
+        if (isWhite) {
+            return "♔";
+        } else {
+            return "♚";
+        }
+    }
 }

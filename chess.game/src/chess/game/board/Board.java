@@ -2,19 +2,21 @@ package chess.game.board;
 
 import chess.game.pieces.*;
 
+import java.io.Serializable;
 import java.util.*;
 
 // Putting a piece in between to solve check, but by moving that piece it would be 'check' from another line -> in case of a checkmate, not implemented yet
 // In stalemate check if a piece cannot move, because it would result in a check, not implemented yet
 
-public class Board {
+public class Board implements Serializable {
     private final Map<Integer, Boolean> field;
     private final Map<Integer, Piece> pieces;
     private boolean whitesTurn;
-    private final List<String> actionHistory = new ArrayList<>();
+    private final List<String> actionHistory;
     private int positionWhiteKing = 15;
     private int positionBlackKing = 85;
-    private List<Piece> capturedPieces= new LinkedList<>();
+    private List<Piece> capturedPieces;
+    private static final long serialVersionUID = 211027;
 
     // Creating chess board with all the pieces on it
     public Board() {
@@ -57,6 +59,25 @@ public class Board {
         pieces.put(88, new Rook(8, 8, false));
 
         whitesTurn = true;
+        actionHistory = new ArrayList<>();
+        capturedPieces= new LinkedList<>();
+    }
+
+    public Board(Board game) {
+        this.field = game.field;
+        this.pieces = game.pieces;
+        this.whitesTurn = game.whitesTurn;
+        this.actionHistory = game.actionHistory;
+        this.positionBlackKing = game.positionBlackKing;
+        this.capturedPieces = game.capturedPieces;
+    }
+
+    public Map<Integer, Piece> getPieces() {
+        return pieces;
+    }
+
+    public List<Piece> getCapturedPieces() {
+        return capturedPieces;
     }
 
     // Moving pieces on the board after testing if it is possible to do this.

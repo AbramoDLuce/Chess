@@ -8,6 +8,8 @@
             <MenuBar AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
                 <Menu text="Game">
                     <MenuItem text="New Game"/>
+                    <MenuItem text="Save" onAction="#onClickSave"/>
+                    <MenuItem text="Load" onAction="#onClickLoad"/>
                     <SeparatorMenuItem/>
                     <MenuItem text="Undo" onAction="#onClickUndo"/>
                 </Menu>

@@ -53,4 +53,13 @@ public class Rook extends Piece {
         }
         return fieldsPassed;
     }
+
+    @Override
+    public String toString() {
+        if (isWhite) {
+            return "♖";
+        } else {
+            return "♜";
+        }
+    }
 }

@@ -1,11 +1,13 @@
 package chess.game.pieces;
 
+import java.io.Serializable;
 import java.util.List;
 
-public abstract class Piece {
+public abstract class Piece implements Serializable {
     protected int row;
     protected int column;
     protected boolean isWhite;
+    private static final long serialVersionUID = 211027;
 
     public Piece(int row, int column, boolean isWhite) {
         this.row = row;
@@ -38,4 +40,7 @@ public abstract class Piece {
     public boolean isWhite() {
         return isWhite;
     }
+
+    @Override
+    abstract public String toString();
 }
