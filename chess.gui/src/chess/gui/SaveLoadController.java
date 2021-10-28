@@ -11,7 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SaveLoadController {
@@ -25,13 +24,13 @@ public class SaveLoadController {
     @FXML
     TableColumn<SavedGame, LocalDate> columnDate;
 
-    List<SavedGame> savedGames = new ArrayList<>();
     private String gameToLoad = null;
 
     public void initialize() {
         updateTableView();
     }
 
+    // Activates method to save the selected game
     @FXML
     public void onSaveTableClicked() {
         int row = tableSavedGames.getSelectionModel().getSelectedIndex();
@@ -39,12 +38,13 @@ public class SaveLoadController {
         try {
             SavedGame game = tableSavedGames.getItems().get(row);
             name = game.getGameName();
+            txtGameName.setText(name);
         } catch (IndexOutOfBoundsException e) {
-            name ="";
+            System.out.println("No valid row selected");
         }
-        txtGameName.setText(name);
     }
 
+    // Activates method to load the selected game
     @FXML
     public void onLoadTableClicked() {
         int row = tableSavedGames.getSelectionModel().getSelectedIndex();
@@ -52,21 +52,23 @@ public class SaveLoadController {
         try {
             SavedGame game = tableSavedGames.getItems().get(row);
             name = game.getGameName();
+            gameToLoad = name;
         } catch (IndexOutOfBoundsException e) {
-            name ="";
+            System.out.println("No valid row selected");
         }
-        gameToLoad = name;
     }
 
-    String getNameGame() {
+    // Returns the name of the game to save
+    String getSaveGameName() {
         return txtGameName.getText();
     }
 
+    // Returns the name of the game to load
     String getGameToLoad() {
         return gameToLoad;
     }
 
-
+    // Updates table with game to show all saved games
     private void updateTableView() {
         List<SavedGame> savedGames = DataAccess.loadAllGames();
         ObservableList<SavedGame> obsSavedGames = FXCollections.observableArrayList(savedGames);

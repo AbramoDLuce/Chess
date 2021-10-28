@@ -342,6 +342,7 @@ public class Controller {
         removedPiecesSet.add(removedBlackQueen);
     }
 
+    // Places the pieces on the board
     private void placePieces() {
         Map<Integer, Piece> pieces = board.getPieces();
         List<Piece> capturedPieces = board.getCapturedPieces();
@@ -385,20 +386,38 @@ public class Controller {
         action(buttonNumber);
     }
 
-    @FXML
-    public void btnGiveUpClicked() {
-
-    }
-
-    // Pop-up window created when a players king is check and the player tries to move a piece that does not solve this situation.
-    private void checkWarning() {
-        if (lblTurn.getText().contains("Check!")) {
-            Alert alert = new Alert(Alert.AlertType.NONE);
-            alert.getButtonTypes().add(ButtonType.OK);
-            alert.setTitle("Check");
-            alert.setContentText("It is check, you should solve this situation or your king will die!");
-            alert.showAndWait();
+    // After a second button/field is clicked the color of the first button/field must be reset to its initial color
+    // depending on the active color theme.
+    public void resetFieldColors() {
+        if (darkFieldsSet.contains(tempBtn1)) {
+            switch (theme) {
+                case "gray":
+                default:
+                    tempBtn1.setStyle("-fx-background-color: #666666; -fx-font-size: 34px");
+                    break;
+                case "green":
+                    tempBtn1.setStyle("-fx-background-color: #455843; -fx-font-size: 34px");
+                    break;
+                case "blue":
+                    tempBtn1.setStyle("-fx-background-color: #0a162c; -fx-font-size: 34px");
+                    break;
+            }
+        } else {
+            switch (theme) {
+                case "gray":
+                default:
+                    tempBtn1.setStyle("-fx-background-color: #cccccc; -fx-font-size: 34px");
+                    break;
+                case "green":
+                    tempBtn1.setStyle("-fx-background-color: #dddddd; -fx-font-size: 34px");
+                    break;
+                case "blue":
+                    tempBtn1.setStyle("-fx-background-color: #cdcdcd; -fx-font-size: 34px");
+                    break;
+            }
         }
+        tempBtn1 = null;
+        firstBtnClicked = 0;
     }
 
     // Calls all the methods verifying the legality of the move and verifying if there is a case of check, checkmate or stalemate.
@@ -573,6 +592,7 @@ public class Controller {
         }
     }
 
+    // Updates the label that specifies who's turn it is and if there is case of check, checkmate or stalemate.
     private void updateTurnLabel() {
         if (board.getWhitesTurn()) {
             lblTurn.setText("It is white's turn");
@@ -596,6 +616,16 @@ public class Controller {
         }
     }
 
+    // Pop-up window created when a players king is check and the player tries to move a piece that does not solve this situation.
+    private void checkWarning() {
+        if (lblTurn.getText().contains("Check!")) {
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            alert.getButtonTypes().add(ButtonType.OK);
+            alert.setTitle("Check");
+            alert.setContentText("It is check, you should solve this situation or your king will die!");
+            alert.showAndWait();
+        }
+    }
     // Starts a new game
     @FXML
     public void onClickNewGame() {
@@ -650,11 +680,13 @@ public class Controller {
         tempBtn2 = null;
     }
 
+    // Saves the game in the current positions and with the current history
     public void onClickSave() {
         String gameToSaveName = openSaveLoadDialog(true);
         DataAccess.saveGame(gameToSaveName, board);
     }
 
+    // Loads a previously save game
     public void onClickLoad() {
         String gameToLoadName = openSaveLoadDialog(false);
         Board game = DataAccess.loadGame(gameToLoadName);
@@ -664,6 +696,8 @@ public class Controller {
         updateTurnLabel();
     }
 
+    // Opens the dialog for saving or loading a game.
+    // If the parameter is true, it will open the save dialog, otherwise it will open the load dialog.
     private String openSaveLoadDialog(Boolean isToSave) {
         ButtonType btnSaveLoad;
         Dialog<ButtonType> dialogSaveLoadGame = new Dialog<>();
@@ -684,15 +718,13 @@ public class Controller {
             System.out.println("Couldn't open dialogSaveLoadGame: " + e.getMessage());
             e.printStackTrace();
         }
-
         dialogSaveLoadGame.getDialogPane().getButtonTypes().add(btnSaveLoad);
         dialogSaveLoadGame.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-
         Optional<ButtonType> result = dialogSaveLoadGame.showAndWait();
         if (result.isPresent() && result.get() == btnSaveLoad) {
             SaveLoadController controller = fxmlLoader.getController();
             if (isToSave) {
-                return controller.getNameGame();
+                return controller.getSaveGameName();
             } else {
                 return controller.getGameToLoad();
             }
@@ -700,12 +732,14 @@ public class Controller {
         return "";
     }
 
+    // Exception for when a button or label cannot be found
     private static class ItemNotFoundException extends Exception {
         private ItemNotFoundException (String message) {
             super(message);
         }
     }
 
+    // Searches a button in the list of all available squares/fields on the board.
     private Button searchButton(int buttonLocation) throws ItemNotFoundException {
         for (Button button : fieldsSet) {
             int buttonPosition = Integer.parseInt(button.getId().substring(3));
@@ -717,6 +751,7 @@ public class Controller {
         throw new ItemNotFoundException("Button not present in FieldsSet");
     }
 
+    // Searches the label next to the board, where the captured piece must be placed
     private Label searchRemovedPiece(String capturedPiece, boolean visible) throws ItemNotFoundException {
         for (Label lblRemovedPiece : removedPiecesSet) {
             if (lblRemovedPiece.getText().equals(capturedPiece) && lblRemovedPiece.isVisible() == visible) {
@@ -762,37 +797,4 @@ public class Controller {
         theme = "blue";
     }
 
-    // After a second button/field is clicked the color of the first button/field must be reset to its initial color
-    // depending on the active color theme.
-    public void resetFieldColors() {
-        if (darkFieldsSet.contains(tempBtn1)) {
-            switch (theme) {
-                case "gray":
-                default:
-                    tempBtn1.setStyle("-fx-background-color: #666666; -fx-font-size: 34px");
-                    break;
-                case "green":
-                    tempBtn1.setStyle("-fx-background-color: #455843; -fx-font-size: 34px");
-                    break;
-                case "blue":
-                    tempBtn1.setStyle("-fx-background-color: #0a162c; -fx-font-size: 34px");
-                    break;
-            }
-        } else {
-            switch (theme) {
-                case "gray":
-                default:
-                    tempBtn1.setStyle("-fx-background-color: #cccccc; -fx-font-size: 34px");
-                    break;
-                case "green":
-                    tempBtn1.setStyle("-fx-background-color: #dddddd; -fx-font-size: 34px");
-                    break;
-                case "blue":
-                    tempBtn1.setStyle("-fx-background-color: #cdcdcd; -fx-font-size: 34px");
-                    break;
-            }
-        }
-        tempBtn1 = null;
-        firstBtnClicked = 0;
-    }
 }

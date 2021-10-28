@@ -18,7 +18,7 @@ public class Board implements Serializable {
     private List<Piece> capturedPieces;
     private static final long serialVersionUID = 211027;
 
-    // Creating chess board with all the pieces on it
+    // Creating chess board with all the pieces on it in the starting positions
     public Board() {
         // Creating chess board with indication of which fields are occupied by a piece (true) and which fields are empty (false)
         // Hashmap key is the location in which the first digit is the row and the second digit the column (e.g. position 45 is row 4 column 5 (column E))
@@ -63,6 +63,7 @@ public class Board implements Serializable {
         capturedPieces= new LinkedList<>();
     }
 
+    // Creates a game, based on another game, with specific action history and positioning of the pieces
     public Board(Board game) {
         this.field = game.field;
         this.pieces = game.pieces;
@@ -72,10 +73,12 @@ public class Board implements Serializable {
         this.capturedPieces = game.capturedPieces;
     }
 
+    // Returns all the still active pieces and their location
     public Map<Integer, Piece> getPieces() {
         return pieces;
     }
 
+    // Returns a list of all captured pieces
     public List<Piece> getCapturedPieces() {
         return capturedPieces;
     }
@@ -596,23 +599,29 @@ public class Board implements Serializable {
             return new int[] {previousPosition, currentPosition, promoted, currentPosition};
         // In case of castling, the rook has to be put back in its original position
         } else if (lastAction.length() == 11) {
-            int rookPreviousPosition;
-            int rookCurrentPosition;
-            if (currentColumn < previousColumn) {
-                rookPreviousPosition = previousRow * 10 + 1;
-                rookCurrentPosition = currentRow * 10 + 4;
-            } else {
-                rookPreviousPosition = previousRow * 10 + 8;
-                rookCurrentPosition = currentRow * 10 + 6;
-            }
-            pieces.put(rookPreviousPosition, pieces.get(rookCurrentPosition));
-            pieces.remove(rookCurrentPosition);
-            field.put(rookPreviousPosition, true);
-            field.put(rookCurrentPosition, false);
-            pieces.get(rookPreviousPosition).setRowAndColumn(previousRow, 1);
-            return new int[] {previousPosition, currentPosition, promoted, rookPreviousPosition, rookCurrentPosition};
+            int[] rookPosition = repositionRook(previousRow, previousColumn, currentRow, currentColumn);
+            return new int[] {previousPosition, currentPosition, promoted, rookPosition[0], rookPosition[1]};
         }
         return new int[] {previousPosition, currentPosition, promoted};
+    }
+
+    // Repositions rook on the board
+    private int[] repositionRook(int previousRow, int previousColumn, int currentRow, int currentColumn) {
+        int rookPreviousPosition;
+        int rookCurrentPosition;
+        if (currentColumn < previousColumn) {
+            rookPreviousPosition = previousRow * 10 + 1;
+            rookCurrentPosition = currentRow * 10 + 4;
+        } else {
+            rookPreviousPosition = previousRow * 10 + 8;
+            rookCurrentPosition = currentRow * 10 + 6;
+        }
+        pieces.put(rookPreviousPosition, pieces.get(rookCurrentPosition));
+        pieces.remove(rookCurrentPosition);
+        field.put(rookPreviousPosition, true);
+        field.put(rookCurrentPosition, false);
+        pieces.get(rookPreviousPosition).setRowAndColumn(previousRow, 1);
+        return new int[] {rookPreviousPosition, rookCurrentPosition};
     }
 
     // Adds last move to the action history
@@ -662,32 +671,7 @@ public class Board implements Serializable {
             return "";
         }
         Piece capturedPiece = capturedPieces.get(capturedPieces.size()-1);
-        if (capturedPiece.isWhite()) {
-            if (capturedPiece instanceof Pawn) {
-                return "♙";
-            } else if (capturedPiece instanceof Rook) {
-                return "♖";
-            } else if (capturedPiece instanceof Knight) {
-                return "♘";
-            } else if (capturedPiece instanceof Bishop) {
-                return "♗";
-            } else if (capturedPiece instanceof Queen) {
-                return "♕";
-            }
-        } else {
-            if (capturedPiece instanceof Pawn) {
-                return "♟";
-            } else if (capturedPiece instanceof Rook) {
-                return "♜";
-            } else if (capturedPiece instanceof Knight) {
-                return "♞";
-            } else if (capturedPiece instanceof Bishop) {
-                return "♝";
-            } else if (capturedPiece instanceof Queen) {
-                return "♛";
-            }
-        }
-        return "";
+        return capturedPiece.toString();
     }
 
     // Returns true if it is white's turn and false if it is black's turn

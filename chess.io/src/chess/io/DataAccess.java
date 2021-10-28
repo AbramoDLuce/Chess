@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataAccess {
+
+    // Saves a game with a specific name. If the name already exists, it will overwrite the previous game.
     public static void saveGame(String gameName, Board game) {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(gameName + ".dat"))) {
             outputStream.writeObject(game);
@@ -22,6 +24,7 @@ public class DataAccess {
         }
     }
 
+    // Returns the chosen game from the list of saved games
     public static Board loadGame(String gameName) {
         List<SavedGame> games = loadAllGames();
         for (SavedGame game : games) {
@@ -32,6 +35,7 @@ public class DataAccess {
         return new Board();
     }
 
+    // Fetches all previously saved games and returns them as a list
     public static List<SavedGame> loadAllGames() {
         String directoryPath = new File("").getAbsolutePath();
         File directory = new File(directoryPath);
@@ -62,7 +66,6 @@ public class DataAccess {
                         fileNameStartIndex = savedGamePath.lastIndexOf("\\") + 1;
                     }
                     String savedGameName = savedGamePath.substring(fileNameStartIndex, savedGamePath.length() - 4);
-                    System.out.println(savedGameName);
                     Board board = (Board) inputStream.readObject();
                     SavedGame game = new SavedGame(savedGameName, savedGameDate, board);
                     savedGames.add(game);
