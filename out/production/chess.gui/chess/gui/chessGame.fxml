@@ -7,7 +7,7 @@
         <AnchorPane>
             <MenuBar AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
                 <Menu text="Game">
-                    <MenuItem text="New Game"/>
+                    <MenuItem text="New Game" onAction="#onClickNewGame"/>
                     <MenuItem text="Save" onAction="#onClickSave"/>
                     <MenuItem text="Load" onAction="#onClickLoad"/>
                     <SeparatorMenuItem/>

@@ -598,8 +598,11 @@ public class Controller {
 
     // Starts a new game
     @FXML
-    public void onClickNewGame(ActionEvent newGameClicked) {
-
+    public void onClickNewGame() {
+        this.board = new Board();
+        placePieces();
+        lblActionHistory.setText(board.getActionHistory());
+        updateTurnLabel();
     }
 
     // Undo the last move
